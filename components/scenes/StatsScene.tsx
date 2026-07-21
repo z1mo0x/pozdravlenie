@@ -66,7 +66,7 @@ function StatsScene({ isLocked, onNext }: SceneComponentProps) {
 export const statsScene: SceneDefinition = {
   id: "stats",
   title: "Первые цифры",
-  exit: "split",
+  exit: "blur",
   background: "#f4f0ff",
   particleColor: "#a48cda",
   Component: StatsScene,

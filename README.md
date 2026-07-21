@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Baby Congrats
 
-## Getting Started
+Интерактивное поздравление с рождением ребёнка на Next.js 16 и Motion.
 
-First, run the development server:
+## Запуск
+
+Требуется Node.js 22.
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000/?name=Миша
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Без параметра `name` используется имя `Малыш`.
 
-## Learn More
+## Структура сцен
 
-To learn more about Next.js, take a look at the following resources:
+Каждая сцена находится в отдельном файле:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+components/scenes/
+├── IntroScene.tsx
+├── DateScene.tsx
+├── StatsScene.tsx
+├── PhotoScene.tsx
+├── FinalScene.tsx
+├── index.ts
+└── types.ts
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`components/BirthGreeting.tsx` только переключает сцены и запускает эффекты.
 
-## Deploy on Vercel
+## Как выбрать эффект
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+В конце файла конкретной сцены измените `exit`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```tsx
+export const introScene: SceneDefinition = {
+  id: "intro",
+  title: "Начало",
+  exit: "up",
+  background: "#fff4ee",
+  particleColor: "#d8846d",
+  Component: IntroScene,
+};
+```
+
+Доступные эффекты:
+
+```text
+up
+particles
+fade
+zoom
+blur
+slide-left
+rotate
+flip
+split
+```
+
+## Как добавить сцену
+
+1. Скопируйте любой файл из `components/scenes/`.
+2. Измените JSX и объект `SceneDefinition`.
+3. Импортируйте сцену в `components/scenes/index.ts`.
+4. Добавьте её в массив `scenes`.
+
+В массиве хранится только порядок. Вся разметка и содержимое остаются внутри отдельного компонента.
+
+## Как заменить картинку
+
+Замените файл:
+
+```text
+public/images/baby-placeholder.svg
+```
+
+Или положите фотографию, например:
+
+```text
+public/images/baby.jpg
+```
+
+После этого в `PhotoScene.tsx` измените:
+
+```tsx
+src="/images/baby.jpg"
+```
+
+## Проверка перед Vercel
+
+```bash
+npm ci
+npm run build
+```
+
+В проекте используется публичный реестр npm, а версии зависимостей зафиксированы.
