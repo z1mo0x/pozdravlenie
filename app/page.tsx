@@ -1,4 +1,5 @@
 import BirthGreeting from "@/components/BirthGreeting";
+import StorkPreloader from "@/components/StorkPreloader/StorkPreloader";
 import { GreetingProvider } from "@/contexts/GreetingContext";
 
 type HomePageProps = {
@@ -29,6 +30,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <GreetingProvider childName={childName}>
+      <StorkPreloader />
       <BirthGreeting />
     </GreetingProvider>
   );

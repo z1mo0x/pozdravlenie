@@ -55,21 +55,30 @@ function StartScene({
                         <motion.p
                             initial={{ opacity: 0, y: 36 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .5 }}
+                            transition={{
+                                duration: 1, ease: [0.22, 1, 0.36, 1],
+                                delay: 3.5
+                            }}
                         >
                             У нас есть
                         </motion.p>
                         <motion.p
                             initial={{ opacity: 0, y: 36 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .75 }}
+                            transition={{
+                                duration: 1, ease: [0.22, 1, 0.36, 1],
+                                delay: 3.75
+                            }}
                         >
                             небольшое
                         </motion.p>
                         <motion.p
                             initial={{ opacity: 0, y: 36 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1 }}
+                            transition={{
+                                duration: 1, ease: [0.22, 1, 0.36, 1],
+                                delay: 4
+                            }}
                         >
                             поздравление
                         </motion.p>
@@ -87,7 +96,7 @@ function StartScene({
                         }}
                         transition={{
                             duration: 0.8,
-                            delay: 1.25,
+                            delay: 4.5,
                         }}
                     >
                         Для полного погружения требуется нажать данную кнопку!
@@ -106,7 +115,7 @@ function StartScene({
                         }}
                         transition={{
                             duration: 0.8,
-                            delay: 1.5,
+                            delay: 5,
                         }}
                     >
                         <SceneButton
