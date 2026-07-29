@@ -10,7 +10,6 @@ export type ExitEffect =
   | "rotate"
   | "flip"
   | "split";
-
 export type SceneComponentProps = {
   childName: string;
   isLocked: boolean;

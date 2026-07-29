@@ -1,5 +1,35 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import localFont from 'next/font/local';
+import { Neucha } from 'next/font/google';
+
+// Подключаем Disruptor's Script
+const disruptorFont = localFont({
+  src: '../public/fonts/disruptor.otf',
+  variable: '--font-disruptor',
+  display: 'swap',
+});
+
+// Подключаем LaborUnion
+const laborUnionFont = localFont({
+  src: '../public/fonts/labor.otf',
+  variable: '--font-labor',
+  display: 'swap',
+});
+
+// Подключаем Musinka
+const musinkaFont = localFont({
+  src: '../public/fonts/labor.otf',
+  variable: '--font-musinka',
+  display: 'swap',
+});
+
+const glinaFont = Neucha({
+  subsets: ['latin', 'cyrillic'],
+  weight: '400',
+  variable: '--font-glina',
+  display: 'swap',
+});
 
 import "./globals.css";
 
@@ -14,7 +44,7 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={`${disruptorFont.variable} ${glinaFont.variable} ${laborUnionFont.variable}`}>
       <body>{children}</body>
     </html>
   );

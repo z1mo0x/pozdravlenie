@@ -17,8 +17,8 @@ import { useGreeting } from "@/contexts/GreetingContext";
 const stageVariants: Variants = {
   enter: {
     opacity: 0,
-    y: 70,
-    scale: 0.985,
+    y: 0,
+    scale: 1,
     filter: "blur(10px)",
   },
   center: {
@@ -181,7 +181,7 @@ export default function BirthGreeting() {
         className="greeting"
         style={{ background: currentScene.background }}
       >
-        <AnimatePresence initial={false} mode="wait">
+        <AnimatePresence mode="wait">
           <motion.div
             key={currentScene.id}
             className="scene-stage"
@@ -202,7 +202,7 @@ export default function BirthGreeting() {
           </motion.div>
         </AnimatePresence>
 
-        <nav className="scene-progress" aria-label="Этапы поздравления">
+        {/* <nav className="scene-progress" aria-label="Этапы поздравления">
           {scenes.map((scene, index) => (
             <span
               key={scene.id}
@@ -220,7 +220,7 @@ export default function BirthGreeting() {
               />
             </span>
           ))}
-        </nav>
+        </nav> */}
 
         <AnimatePresence>
           {isBurstVisible && (
