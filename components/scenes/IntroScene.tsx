@@ -8,16 +8,12 @@ import type {
   SceneDefinition,
 } from "@/components/scenes/types";
 import Image from "next/image";
-import { useContext, useState } from "react";
-import { useGreeting } from "@/contexts/GreetingContext";
+import { useState } from "react";
 
 function IntroScene({ isLocked, onNext }: SceneComponentProps) {
 
-  const [cookieStage, setCookieStage] = useState<number>(0);
+  const [cookieStage, setCookieStage] = useState<number>(2);
 
-  const name = useGreeting()
-
-  console.log(name);
 
 
   return (
@@ -87,4 +83,7 @@ export const introScene: SceneDefinition = {
   background: "#fff",
   particleColor: '#fff',
   Component: IntroScene,
+
+  sound: "/audio/scenes/start.mp3",
+  soundVolume: 0.5,
 };

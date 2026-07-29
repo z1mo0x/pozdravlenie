@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import localFont from 'next/font/local';
 import { Neucha } from 'next/font/google';
+import "./globals.css";
 
 // Подключаем Disruptor's Script
 const disruptorFont = localFont({
@@ -24,17 +25,15 @@ const musinkaFont = localFont({
   display: 'swap',
 });
 
-const glinaFont = Neucha({
-  subsets: ['latin', 'cyrillic'],
-  weight: '400',
+const glinaFont = localFont({
+  src: '../public/fonts/glina.ttf',
   variable: '--font-glina',
   display: 'swap',
 });
 
-import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Добро пожаловать, малыш!",
+  title: `Добро пожаловать, малыш!`,
   description: "Интерактивное поздравление с рождением ребёнка.",
 };
 

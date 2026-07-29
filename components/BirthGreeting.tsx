@@ -8,7 +8,7 @@ import {
   type Variants,
 } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-
+import { playSceneSound } from "@/lib/audioManager";
 import ParticleBurst from "@/components/ParticleBurst";
 import { scenes } from "@/components/scenes";
 import type { ExitEffect } from "@/components/scenes/types";
@@ -142,6 +142,14 @@ export default function BirthGreeting() {
     if (isLocked) {
       return;
     }
+
+    /*
+ * Звук перехода, указанный в настройках текущей сцены.
+ */
+    void playSceneSound(
+      currentScene.sound,
+      currentScene.soundVolume ?? 0.7,
+    );
 
     const effect: ExitEffect = prefersReducedMotion
       ? "fade"

@@ -184,12 +184,14 @@ button {
   color: white;
   font-family: var(--font-disruptor);
   font-size: 405px;
+  pointer-events: none;
 }
 
 .scene__title--hero {
   font-size: clamp(52px, 9vw, 126px);
 }
 
+.scene__text {}
 
 .scene__text--left {
   margin-right: 0;

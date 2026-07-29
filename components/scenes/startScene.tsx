@@ -115,7 +115,10 @@ export const startScene: SceneDefinition = {
     id: "start",
     title: "Начальный экран",
     exit: "particles",
-    background: "#d8846d",
-    particleColor: "#fff",
+    background: "pink",
+    particleColor: "pink",
     Component: StartScene,
+
+    sound: "/audio/scenes/start.mp3",
+    soundVolume: 0.5,
 };
