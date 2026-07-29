@@ -26,6 +26,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
   const childName = normalizeName(params.name);
 
+
   return (
     <GreetingProvider childName={childName}>
       <BirthGreeting />

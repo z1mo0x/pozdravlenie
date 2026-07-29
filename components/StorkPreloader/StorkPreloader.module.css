@@ -1,0 +1,197 @@
+.preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    width: 100%;
+    height: 100dvh;
+
+    overflow: hidden;
+    pointer-events: all;
+
+    background: transparent;
+}
+
+.background {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    padding: 0 24px 9vh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 24% 28%,
+            rgba(255, 255, 255, 0.9) 0,
+            rgba(255, 255, 255, 0) 25%),
+        radial-gradient(circle at 73% 22%,
+            rgba(255, 255, 255, 0.65) 0,
+            rgba(255, 255, 255, 0) 29%),
+        linear-gradient(180deg,
+            #cbe9f2 0%,
+            #e7f3f3 47%,
+            #f8e8d7 100%);
+
+    will-change: clip-path;
+}
+
+.clouds {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.clouds::before,
+.clouds::after {
+    content: "";
+
+    position: absolute;
+
+    width: 620px;
+    height: 240px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(ellipse at 18% 68%,
+            rgba(255, 255, 255, 0.98) 0 20%,
+            transparent 21%),
+        radial-gradient(ellipse at 36% 46%,
+            rgba(255, 255, 255, 0.98) 0 27%,
+            transparent 28%),
+        radial-gradient(ellipse at 57% 58%,
+            rgba(255, 255, 255, 0.96) 0 31%,
+            transparent 32%),
+        radial-gradient(ellipse at 78% 69%,
+            rgba(255, 255, 255, 0.94) 0 23%,
+            transparent 24%),
+        radial-gradient(ellipse at 50% 78%,
+            rgba(166, 198, 210, 0.25) 0 37%,
+            transparent 55%);
+
+    filter:
+        blur(2px) drop-shadow(0 18px 20px rgba(96, 137, 151, 0.16));
+
+    opacity: 0.9;
+    will-change: transform;
+}
+
+.clouds::before {
+    top: 14%;
+    left: -130px;
+
+    transform: scale(1.1);
+    animation: cloudMoveFirst 8s linear infinite alternate;
+}
+
+.clouds::after {
+    top: 38%;
+    right: -180px;
+
+    width: 760px;
+    height: 290px;
+
+    opacity: 0.72;
+    transform: scale(0.82);
+
+    animation: cloudMoveSecond 10s linear infinite alternate;
+}
+
+@keyframes cloudMoveFirst {
+    from {
+        transform: translateX(-20px) scale(1.1);
+    }
+
+    to {
+        transform: translateX(90px) scale(1.14);
+    }
+}
+
+@keyframes cloudMoveSecond {
+    from {
+        transform: translateX(30px) scale(0.82);
+    }
+
+    to {
+        transform: translateX(-90px) scale(0.86);
+    }
+}
+
+.text {
+    position: relative;
+    z-index: 2;
+
+    color: rgba(71, 77, 78, 0.72);
+    font-size: clamp(14px, 1.2vw, 18px);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-align: center;
+}
+
+.stork {
+    position: absolute;
+    top: 31%;
+    left: 0;
+    z-index: 4;
+
+    width: clamp(250px, 31vw, 560px);
+
+    pointer-events: none;
+    will-change: transform;
+}
+
+.storkVideo {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(0 18px 18px rgba(54, 68, 71, 0.14)) drop-shadow(0 4px 5px rgba(54, 68, 71, 0.08));
+}
+
+.lightEdge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+
+    width: 12vw;
+    min-width: 100px;
+
+    pointer-events: none;
+
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 45%,
+            rgba(255, 255, 255, 0.82) 70%,
+            transparent 100%);
+
+    filter: blur(12px);
+    transform: translateX(-50%);
+    will-change: left, opacity;
+}
+
+@media (max-width: 767px) {
+    .stork {
+        top: 35%;
+        width: clamp(220px, 78vw, 390px);
+    }
+
+    .background {
+        padding-bottom: 12vh;
+    }
+
+    .lightEdge {
+        width: 24vw;
+    }
+}

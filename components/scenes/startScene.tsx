@@ -14,6 +14,7 @@ import {
     playBackgroundMusic,
     playOverlaySound,
 } from "@/lib/audioManager";
+import StorkPreloader from "../StorkPreloader/StorkPreloader";
 
 function StartScene({
     isLocked,
@@ -41,80 +42,83 @@ function StartScene({
     };
 
     return (
-        <section className="scene scene--start">
-            <motion.div
-                className="scene__content scene__content--center"
-            >
-                <motion.h1
-                    className="scene__title scene__title--hero"
-                    style={{ fontSize: "68px" }}
-                >
-                    <motion.p
-                        initial={{ opacity: 0, y: 36 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .5 }}
-                    >
-                        У нас есть
-                    </motion.p>
-                    <motion.p
-                        initial={{ opacity: 0, y: 36 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .75 }}
-                    >
-                        небольшое
-                    </motion.p>
-                    <motion.p
-                        initial={{ opacity: 0, y: 36 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1 }}
-                    >
-                        поздравление
-                    </motion.p>
-                </motion.h1>
-
-                <motion.p
-                    className="scene__text text"
-                    initial={{
-                        opacity: 0,
-                        y: 18,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        y: 0,
-                    }}
-                    transition={{
-                        duration: 0.8,
-                        delay: 1.25,
-                    }}
-                >
-                    Для полного погружения требуется нажать данную кнопку!
-                    <br />
-                    <span style={{}}>(для включения звука)</span>
-                </motion.p>
-
+        <>
+            <StorkPreloader />
+            <section className="scene scene--start">
                 <motion.div
-                    initial={{
-                        opacity: 0,
-                        scale: .85
-                    }}
-                    animate={{
-                        opacity: 1,
-                        scale: 1
-                    }}
-                    transition={{
-                        duration: 0.8,
-                        delay: 1.5,
-                    }}
+                    className="scene__content scene__content--center"
                 >
-                    <SceneButton
-                        disabled={isLocked || isStarting}
-                        onClick={handleStart}
+                    <motion.h1
+                        className="scene__title scene__title--hero"
+                        style={{ fontSize: "68px" }}
                     >
-                        {isStarting ? "Начинаем..." : "Начать"}
-                    </SceneButton>
+                        <motion.p
+                            initial={{ opacity: 0, y: 36 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .5 }}
+                        >
+                            У нас есть
+                        </motion.p>
+                        <motion.p
+                            initial={{ opacity: 0, y: 36 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .75 }}
+                        >
+                            небольшое
+                        </motion.p>
+                        <motion.p
+                            initial={{ opacity: 0, y: 36 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1 }}
+                        >
+                            поздравление
+                        </motion.p>
+                    </motion.h1>
+
+                    <motion.p
+                        className="scene__text text"
+                        initial={{
+                            opacity: 0,
+                            y: 18,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            y: 0,
+                        }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 1.25,
+                        }}
+                    >
+                        Для полного погружения требуется нажать данную кнопку!
+                        <br />
+                        <span style={{}}>(для включения звука)</span>
+                    </motion.p>
+
+                    <motion.div
+                        initial={{
+                            opacity: 0,
+                            scale: .85
+                        }}
+                        animate={{
+                            opacity: 1,
+                            scale: 1
+                        }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 1.5,
+                        }}
+                    >
+                        <SceneButton
+                            disabled={isLocked || isStarting}
+                            onClick={handleStart}
+                        >
+                            {isStarting ? "Начинаем..." : "Начать"}
+                        </SceneButton>
+                    </motion.div>
                 </motion.div>
-            </motion.div>
-        </section>
+            </section>
+        </>
     );
 }
 
