@@ -49,8 +49,11 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ru" className={cn(disruptorFont.variable, musinkaFont.variable, glinaFont.variable, laborUnionFont.variable, "font-sans", geist.variable)}>
-      <body>{children}</body>
-      <Toaster position="bottom-center" />
+      <body>
+        {children}
+
+        <Toaster position="bottom-center" />
+      </body>
     </html>
   );
 }
