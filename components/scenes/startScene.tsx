@@ -57,7 +57,7 @@ function StartScene({
                     }}
                     transition={{
                         duration: 1,
-                        delay: 0.3,
+                        delay: 0.5,
                         ease: [0.22, 1, 0.36, 1],
                     }}
                     style={{ fontSize: '72px' }}
@@ -79,7 +79,7 @@ function StartScene({
                     }}
                     transition={{
                         duration: 0.8,
-                        delay: 0.6,
+                        delay: 1,
                     }}
                 >
                     Для полного погружения требуется нажать данную кнопку!
@@ -98,7 +98,7 @@ function StartScene({
                     }}
                     transition={{
                         duration: 0.8,
-                        delay: 0.9,
+                        delay: 1.5,
                     }}
                 >
                     <SceneButton
