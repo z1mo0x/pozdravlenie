@@ -137,11 +137,11 @@
 
 .stork {
     position: absolute;
-    top: 31%;
+    top: 15%;
     left: 0;
     z-index: 4;
 
-    width: clamp(250px, 31vw, 560px);
+    width: 900;
 
     pointer-events: none;
     will-change: transform;

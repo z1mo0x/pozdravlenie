@@ -123,10 +123,10 @@ export default function StorkPreloader({
                     ],
                     y: [
                         "10vh",
-                        "4vh",
                         "8vh",
-                        "-1vh",
-                        "3vh",
+                        "-3vh",
+                        "6vh",
+                        "-5vh",
                         "-8vh",
                     ],
                     rotate: [
