@@ -22,7 +22,7 @@ export default function SceneButton({
       onClick={onClick}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.18 }}
+      transition={{ duration: .5 }}
 
     >
       <div className="glass-text">{children}</div>

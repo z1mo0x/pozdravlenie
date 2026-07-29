@@ -47,24 +47,29 @@ function StartScene({
             >
                 <motion.h1
                     className="scene__title scene__title--hero"
-                    initial={{
-                        opacity: 0,
-                        y: 36,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        y: 0,
-                    }}
-                    transition={{
-                        duration: 1,
-                        delay: 0.5,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
-                    style={{ fontSize: '68px' }}
+                    style={{ fontSize: "68px" }}
                 >
-                    У нас для вас есть
-                    <br />
-                    небольшое поздравление
+                    <motion.p
+                        initial={{ opacity: 0, y: 36 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .5 }}
+                    >
+                        У нас есть
+                    </motion.p>
+                    <motion.p
+                        initial={{ opacity: 0, y: 36 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .75 }}
+                    >
+                        небольшое
+                    </motion.p>
+                    <motion.p
+                        initial={{ opacity: 0, y: 36 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1 }}
+                    >
+                        поздравление
+                    </motion.p>
                 </motion.h1>
 
                 <motion.p
@@ -79,7 +84,7 @@ function StartScene({
                     }}
                     transition={{
                         duration: 0.8,
-                        delay: 1,
+                        delay: 1.25,
                     }}
                 >
                     Для полного погружения требуется нажать данную кнопку!
@@ -90,11 +95,11 @@ function StartScene({
                 <motion.div
                     initial={{
                         opacity: 0,
-                        y: 18,
+                        scale: .85
                     }}
                     animate={{
                         opacity: 1,
-                        y: 0,
+                        scale: 1
                     }}
                     transition={{
                         duration: 0.8,
