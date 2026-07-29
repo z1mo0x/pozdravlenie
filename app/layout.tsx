@@ -44,7 +44,7 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ru" className={`${disruptorFont.variable} ${glinaFont.variable} ${laborUnionFont.variable}`}>
+    <html lang="ru" className={`${disruptorFont.variable} ${musinkaFont.variable} ${glinaFont.variable} ${laborUnionFont.variable}`}>
       <body>{children}</body>
     </html>
   );

@@ -36,6 +36,20 @@ export default function SceneButton({
           </filter>
         </defs>
       </svg>
+      <div className="button-bg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="175" height="175" viewBox="0 0 175 175" fill="none">
+          <g filter="url(#filter0_f_1_37)">
+            <circle cx="130" cy="133" r="67" fill="#DF8E97" />
+          </g>
+          <defs>
+            <filter id="filter0_f_1_37" x="-55.3" y="-52.3" width="370.6" height="370.6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
+              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+              <feGaussianBlur stdDeviation="59.15" result="effect1_foregroundBlur_1_37" />
+            </filter>
+          </defs>
+        </svg>
+      </div>
     </motion.button>
   );
 }

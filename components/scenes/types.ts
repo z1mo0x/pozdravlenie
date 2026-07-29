@@ -23,4 +23,7 @@ export type SceneDefinition = {
   background: string;
   particleColor: string;
   Component: ComponentType<SceneComponentProps>;
+
+  sound?: string;
+  soundVolume?: number;
 };

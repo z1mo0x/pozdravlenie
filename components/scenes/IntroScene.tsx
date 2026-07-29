@@ -8,13 +8,16 @@ import type {
   SceneDefinition,
 } from "@/components/scenes/types";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useGreeting } from "@/contexts/GreetingContext";
 
 function IntroScene({ isLocked, onNext }: SceneComponentProps) {
 
   const [cookieStage, setCookieStage] = useState<number>(0);
 
+  const name = useGreeting()
 
+  console.log(name);
 
 
   return (
@@ -28,7 +31,7 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
           <motion.p
             initial={{ opacity: 0, y: 36 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: .5 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .5 }}
           >
             Поздравляем
 
@@ -36,29 +39,32 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
           <motion.p
             initial={{ opacity: 0, y: 36 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: .75 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .75 }}
           >
             с рождением
           </motion.p>
           <motion.span
             initial={{ opacity: 0, rotate: 0, y: 0, x: 0 }}
             animate={{ opacity: 1, rotate: -10, y: -30, x: -15 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 1.25 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1.25 }}
           >
             дочки
           </motion.span>
         </motion.h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5 }}
-        >
+        {cookieStage === 2
+          &&
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5 }}
+          >
+            <SceneButton disabled={isLocked} onClick={onNext}>
+              Подтвердить
+            </SceneButton>
+          </motion.div>
+        }
 
-          <SceneButton disabled={isLocked} onClick={onNext}>
-            Подтвердить
-          </SceneButton>
-        </motion.div>
 
       </motion.div>
       <motion.div className="scene__image"
