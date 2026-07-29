@@ -13,7 +13,7 @@ interface StorkPreloaderProps {
     onComplete?: () => void;
 }
 
-const PRELOADER_DURATION = 3000;
+const PRELOADER_DURATION = 4000;
 
 export default function StorkPreloader({
     onComplete,
@@ -60,7 +60,7 @@ export default function StorkPreloader({
                     ],
                 }}
                 transition={{
-                    duration: 3,
+                    duration: 4,
                     times: [0, 0.7, 1],
                     ease: [0.76, 0, 0.24, 1],
                 }}
@@ -155,7 +155,7 @@ export default function StorkPreloader({
                     ],
                 }}
                 transition={{
-                    duration: 2.9,
+                    duration: 4,
                     times: [
                         0,
                         0.16,
