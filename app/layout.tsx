@@ -20,13 +20,13 @@ const laborUnionFont = localFont({
 
 // Подключаем Musinka
 const musinkaFont = localFont({
-  src: '../public/fonts/labor.otf',
+  src: '../public/fonts/Musinka.ttf',
   variable: '--font-musinka',
   display: 'swap',
 });
 
 const glinaFont = localFont({
-  src: '../public/fonts/glina.ttf',
+  src: '../public/fonts/glina-2.otf',
   variable: '--font-glina',
   display: 'swap',
 });

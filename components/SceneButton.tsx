@@ -25,7 +25,7 @@ export default function SceneButton({
       transition={{ duration: 0.18 }}
 
     >
-      <div className="glass-text">Поздравляем</div>
+      <div className="glass-text">{children}</div>
 
       <svg xmlns="http://www.w3.org/2000/svg" style={{ display: 'none' }}>
         <defs>

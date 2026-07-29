@@ -68,7 +68,7 @@ function StartScene({
                 </motion.h1>
 
                 <motion.p
-                    className="scene__text"
+                    className="scene__text text"
                     initial={{
                         opacity: 0,
                         y: 18,
@@ -82,7 +82,9 @@ function StartScene({
                         delay: 0.6,
                     }}
                 >
-                    Для полного погружения включите звук
+                    Для полного погружения требуется нажать данную кнопку!
+                    <br />
+                    <span style={{}}>(для включения звука)</span>
                 </motion.p>
 
                 <motion.div
