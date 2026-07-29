@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import localFont from 'next/font/local';
-import { Neucha } from 'next/font/google';
 import "./globals.css";
+import { Toaster } from "sonner";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
+
 
 // Подключаем Disruptor's Script
 const disruptorFont = localFont({
@@ -43,8 +48,9 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="ru" className={`${disruptorFont.variable} ${musinkaFont.variable} ${glinaFont.variable} ${laborUnionFont.variable}`}>
+    <html lang="ru" className={cn(disruptorFont.variable, musinkaFont.variable, glinaFont.variable, laborUnionFont.variable, "font-sans", geist.variable)}>
       <body>{children}</body>
+      <Toaster position="bottom-center" />
     </html>
   );
 }

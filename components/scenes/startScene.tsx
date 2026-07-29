@@ -15,6 +15,7 @@ import {
     playOverlaySound,
 } from "@/lib/audioManager";
 import StorkPreloader from "../StorkPreloader/StorkPreloader";
+import { toast } from "sonner";
 
 function StartScene({
     isLocked,
@@ -99,12 +100,13 @@ function StartScene({
                             delay: 4.5,
                         }}
                     >
-                        Для полного погружения требуется нажать данную кнопку!
+                        Для полного погружения требуется нажать "Начать"!
                         <br />
                         <span style={{}}>(для включения звука)</span>
                     </motion.p>
 
                     <motion.div
+                        className="flex gap-5 mt-10"
                         initial={{
                             opacity: 0,
                             scale: .85
@@ -124,9 +126,20 @@ function StartScene({
                         >
                             {isStarting ? "Начинаем..." : "Начать"}
                         </SceneButton>
+                        <SceneButton
+                            disabled={isLocked || isStarting}
+                            onClick={() => {
+                                toast.error("Так нельзя!", {
+                                    description: "Лучше нажми другую кнопку!",
+
+                                });
+                            }}
+                        >
+                            Не хочу звуки
+                        </SceneButton>
                     </motion.div>
                 </motion.div>
-            </section>
+            </section >
         </>
     );
 }
