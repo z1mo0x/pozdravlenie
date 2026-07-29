@@ -60,7 +60,7 @@ function StartScene({
                         delay: 0.5,
                         ease: [0.22, 1, 0.36, 1],
                     }}
-                    style={{ fontSize: '72px' }}
+                    style={{ fontSize: '68px' }}
                 >
                     У нас для вас есть
                     <br />
