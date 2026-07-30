@@ -23,7 +23,7 @@ export async function playBackgroundMusic(
         await backgroundMusic.play();
         isAudioEnabled = true;
     } catch (error) {
-        console.error("Не удалось запустить музыку:", error);
+        // console.error("Не удалось запустить музыку:", error);
     }
 }
 

@@ -52,7 +52,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         {children}
 
-        <Toaster position="bottom-center" />
+        <Toaster richColors position="bottom-center" />
       </body>
     </html>
   );

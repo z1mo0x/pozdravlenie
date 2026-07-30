@@ -61,6 +61,7 @@ button {
   font: inherit;
 }
 
+/* 
 .liquid-glass {
   width: 175px;
   height: 175px;
@@ -112,6 +113,11 @@ button {
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   opacity: 1;
   transform: translate(0px, 0px);
+} */
+
+.liquid-glass:before,
+.liquid-glass:after {
+  pointer-events: none;
 }
 
 .greeting {
@@ -137,7 +143,7 @@ button {
   align-items: center;
   flex-direction: column;
   overflow: hidden;
-  padding: 100px 0 50px;
+  padding: 100px 0 20px;
 }
 
 .scene--intro {
@@ -151,6 +157,7 @@ button {
   justify-content: space-between;
   height: 100%;
 }
+
 
 .scene--date {
   color: #24465f;
@@ -230,10 +237,14 @@ button {
   color: white;
 }
 
-.text {}
+.text {
+  font-family: var(--font-glina), sans-serif;
+  font-size: 50px;
+  color: white;
+}
 
 .text span {
-  display: inline-block;
+  display: inline;
   position: relative;
   width: max-content;
 
@@ -243,10 +254,66 @@ button {
   content: '';
   position: absolute;
   width: 100%;
-  height: 10px;
-  top: 100%;
-  background: url('../public/underline.svg') left / contain no-repeat;
+  height: 20px;
+  top: calc(100% - 10px);
+  background: url('../public/underline.svg') left no-repeat;
+  background-size: contain;
+}
 
+
+
+.button-second {
+  font-family: var(--font-glina), sans-serif;
+  color: white;
+  font-size: 30px;
+  background: #FFFFFF40;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  border: 1px solid #FFFFFF80;
+}
+
+.button-second .button-bg {
+  left: 50%;
+  top: -25%;
+  right: unset;
+  transform: translateX(-50%);
+}
+
+
+.button-second::before {
+  content: '';
+  width: 252px;
+  height: 252px;
+  background: #DF8E97;
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(10px);
+  top: 0;
+  left: 50%;
+  transition: all .5s;
+  transform: translateX(-50%);
+}
+
+.button-second:hover::before {
+  transform: translateX(-50%) translateY(-30px);
+  filter: blur(15px);
+}
+
+
+.button-second::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: .2;
+  background: linear-gradient(45deg, #FFFFFF, #FEE1D1);
 }
 
 .scene__text--left {
@@ -273,10 +340,8 @@ button {
   border-radius: 50%;
   position: relative;
   z-index: 2;
-  /* border-radius: 200px; */
   border: 1px solid #FFF;
   /* background: rgba(255, 255, 255, 0.20); */
-  backdrop-filter: blur(5px);
   margin: 0 auto;
   color: #FFF;
   font-family: var(--font-glina), cursive;
@@ -284,6 +349,7 @@ button {
   font-weight: 400;
   letter-spacing: -0.3px;
   overflow: hidden;
+  background: none;
   z-index: 2;
   color: #FFF;
   font-size: 30px;
@@ -292,7 +358,24 @@ button {
   letter-spacing: -0.3px;
 }
 
-.scene-button::after {
+.scene-button__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  border-radius: inherit;
+
+  background:
+    radial-gradient(circle at 25% 75%,
+      rgba(255, 255, 255, 0.65) 0,
+      rgba(255, 255, 255, 0.18) 20%,
+      transparent 45%),
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.28),
+      rgba(225, 144, 156, 0.36));
+}
+
+/* .scene-button::after {
   content: '';
   position: absolute;
   top: 0;
@@ -303,6 +386,25 @@ button {
   z-index: -1;
   opacity: .2;
   background: linear-gradient(45deg, #FFFFFF, #FEE1D1);
+} */
+
+.glass-item {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.glass-block {
+  background:
+    linear-gradient(rgba(225, 144, 156, 0.41),
+      rgba(225, 144, 156, 0.41)),
+    linear-gradient(rgba(255, 255, 255, 0.20),
+      rgba(255, 255, 255, 0.20));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .button-bg {
@@ -310,6 +412,7 @@ button {
   right: 0;
   bottom: 0;
   z-index: -1;
+  pointer-events: none;
 }
 
 .scene-button:focus-visible {
@@ -617,9 +720,11 @@ button {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }

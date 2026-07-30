@@ -12,7 +12,6 @@ import type {
 import {
     enableAudio,
     playBackgroundMusic,
-    playOverlaySound,
 } from "@/lib/audioManager";
 import StorkPreloader from "../StorkPreloader/StorkPreloader";
 import { toast } from "sonner";
@@ -32,19 +31,13 @@ function StartScene({
          * Включаем звук непосредственно по клику пользователя.
          */
         await enableAudio();
-        await playBackgroundMusic("/audio/background.mp3");
-
-        /*
-         * Необязательный короткий звук нажатия.
-         */
-        await playOverlaySound("/audio/start.mp3", 0.5);
+        await playBackgroundMusic();
 
         onNext();
     };
 
     return (
         <>
-            <StorkPreloader />
             <section className="scene scene--start">
                 <motion.div
                     className="scene__content scene__content--center"
@@ -106,7 +99,7 @@ function StartScene({
                     </motion.p>
 
                     <motion.div
-                        className="flex gap-5 mt-10"
+                        className="flex gap-5 justify-center mt-10"
                         initial={{
                             opacity: 0,
                             scale: .85
