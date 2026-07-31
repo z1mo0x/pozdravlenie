@@ -217,12 +217,21 @@ button {
 }
 
 .certificate {
-  background: url('../public/certificate-bg.png') center / contain no-repeat;
+  background: url('../public/certificate-bg.png') top / contain no-repeat;
   width: 100%;
   height: 1500px;
   padding: 50px 100px;
   padding-top: 120px;
 }
+
+.certificate.certificate-saving {
+  height: 1600px;
+}
+
+.certificate.certificate-saving .certificate__stamp {
+  bottom: 25px;
+}
+
 
 .background {
   position: fixed;
@@ -844,7 +853,6 @@ button {
 
 .certificate {
   position: relative;
-  margin-bottom: 200px;
 }
 
 .certificate__stamp {
@@ -853,7 +861,7 @@ button {
   right: 300px;
   width: 300px;
   height: 400px;
-  background: url('../public/shtamp.png') center / contain no-repeat;
+  background: url('../public/shtamp.png') top / contain no-repeat;
 }
 
 @media (max-width: 760px) {

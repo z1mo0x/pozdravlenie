@@ -30,6 +30,34 @@ type CertificateData = {
     autograph: string;
 };
 
+const fieldsContainerVariants = {
+    hidden: {},
+    visible: {
+        transition: {
+            delayChildren: 1.6,
+            staggerChildren: 0.25,
+        },
+    },
+};
+
+const fieldVariants = {
+    hidden: {
+        opacity: 0,
+        y: 18,
+        scale: 0.98,
+        filter: 'blur(5px)',
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: 'blur(0px)',
+        transition: {
+            duration: 0.8,
+            ease: [0.22, 1, 0.36, 1] as const,
+        },
+    },
+};
 function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 
     const certificateRef = useRef<HTMLDivElement>(null);
@@ -52,7 +80,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 
         if (!greetingBlock) return;
 
-        greetingBlock.style.minHeight = '200svh';
+        greetingBlock.style.minHeight = '250svh';
 
         return () => {
             greetingBlock.style.minHeight = '';
@@ -101,13 +129,13 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
     };
 
     return (
-        <section className="scene scene--certificate relative">
+        <section className="scene scene--certificate relative ">
             <div className="background">
                 <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
             </div>
             <div className="scene__content">
                 TABS
-                <div className="certificate" ref={certificateRef}>
+                <div className={`certificate ${isSaving && 'certificate-saving'}`} ref={certificateRef}>
                     <motion.h1
                         className="scene__title scene__title--hero"
                     >
@@ -134,70 +162,88 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
                             батьком
                         </motion.span>
                     </motion.h1>
-                    <div className="certificate__fields">
-                        <CertificateField
-                            id="certificate-name"
-                            label="Имя"
-                            value={certificateData.name}
-                            placeholder="Имя"
-                            onChange={(value) => {
-                                changeCertificateField('name', value);
-                            }}
-                        />
+                    <motion.div
+                        className="certificate__fields"
+                        variants={fieldsContainerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        <motion.div variants={fieldVariants}>
+                            <CertificateField
+                                id="certificate-name"
+                                label="Имя"
+                                value={certificateData.name}
+                                placeholder="Имя"
+                                onChange={(value) => {
+                                    changeCertificateField('name', value);
+                                }}
+                            />
+                        </motion.div>
 
-                        <CertificateField
-                            id="certificate-birthday"
-                            label="Дата рождения"
-                            value={certificateData.birthday}
-                            type="text"
-                            placeholder="Дата"
-                            onChange={(value) => {
-                                changeCertificateField('birthday', value);
-                            }}
-                        />
+                        <motion.div variants={fieldVariants}>
+                            <CertificateField
+                                id="certificate-birthday"
+                                label="Дата рождения"
+                                value={certificateData.birthday}
+                                type="text"
+                                placeholder="Дата"
+                                onChange={(value) => {
+                                    changeCertificateField('birthday', value);
+                                }}
+                            />
+                        </motion.div>
 
-                        <CertificateField
-                            id="certificate-city"
-                            label="Город"
-                            value={certificateData.city}
-                            placeholder="Введите город"
-                            onChange={(value) => {
-                                changeCertificateField('city', value);
-                            }}
-                        />
+                        <motion.div variants={fieldVariants}>
+                            <CertificateField
+                                id="certificate-city"
+                                label="Город"
+                                value={certificateData.city}
+                                placeholder="Введите город"
+                                onChange={(value) => {
+                                    changeCertificateField('city', value);
+                                }}
+                            />
+                        </motion.div>
 
-                        <CertificateField
-                            id="certificate-time"
-                            label="Время рождения"
-                            value={certificateData.time}
-                            type="text"
-                            onChange={(value) => {
-                                changeCertificateField('time', value);
-                            }}
-                        />
+                        <motion.div variants={fieldVariants}>
+                            <CertificateField
+                                id="certificate-time"
+                                label="Время рождения"
+                                value={certificateData.time}
+                                type="text"
+                                placeholder="Время"
+                                onChange={(value) => {
+                                    changeCertificateField('time', value);
+                                }}
+                            />
+                        </motion.div>
 
-                        <CertificateField
-                            id="certificate-weight"
-                            label="Вес"
-                            value={certificateData.weight}
-                            type="number"
-                            placeholder="3200"
-                            onChange={(value) => {
-                                changeCertificateField('weight', value);
-                            }}
-                        />
+                        <motion.div variants={fieldVariants}>
+                            <CertificateField
+                                id="certificate-weight"
+                                label="Вес"
+                                value={certificateData.weight}
+                                type="text"
+                                placeholder="3200"
+                                onChange={(value) => {
+                                    changeCertificateField('weight', value);
+                                }}
+                            />
+                        </motion.div>
 
-                        <CertificateField
-                            id="certificate-height"
-                            label="Рост"
-                            value={certificateData.height}
-                            type="number"
-                            placeholder="57"
-                            onChange={(value) => {
-                                changeCertificateField('height', value);
-                            }}
-                        />
-                    </div>
+                        <motion.div variants={fieldVariants}>
+                            <CertificateField
+                                id="certificate-height"
+                                label="Рост"
+                                value={certificateData.height}
+                                type="text"
+                                placeholder="57"
+                                onChange={(value) => {
+                                    changeCertificateField('height', value);
+                                }}
+                            />
+                        </motion.div>
+                    </motion.div>
 
                     <div className="certificate__bottom">
                         <div className="certificate__autograph">
