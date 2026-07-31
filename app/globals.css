@@ -54,7 +54,7 @@ body {
 
 body {
   margin: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 button {
@@ -122,11 +122,12 @@ button {
 
 .greeting {
   position: relative;
-  min-height: 100svh;
-  overflow: hidden;
+  min-height: 100vh;
   isolation: isolate;
   perspective: 1400px;
   transition: background 0.45s ease;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .scene-stage {
@@ -156,6 +157,172 @@ button {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+}
+
+.text-block {
+  position: relative;
+  width: 431px;
+  height: 183px;
+  padding: 20px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 70px;
+  padding-right: 0;
+}
+
+.scene__cookie-3 {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.text-block-reverse {
+  transform: rotate(180deg);
+}
+
+.text-block-reverse .text {
+  transform: rotate(-180deg);
+}
+
+.text-block .text {
+  width: 100%;
+  text-align: center;
+  font-size: 64px;
+  line-height: 100%;
+}
+
+.scene__cookie-2,
+.scene__cookie-3 {
+  margin-top: -300px;
+}
+
+.scene__cookie-3 .text-block {
+  padding-right: 20px;
+}
+
+.scene--certificate .scene__title p {
+  font-size: 115px;
+}
+
+.scene--certificate .scene__title span {
+  max-width: unset;
+  font-size: 350px;
+  color: #E699A5;
+  margin-left: 200px;
+}
+
+.scene--certificate .scene__content {
+  width: 1300px;
+}
+
+.certificate {
+  background: url('../public/certificate-bg.png') center / contain no-repeat;
+  width: 100%;
+  height: 1500px;
+  padding: 50px 100px;
+  padding-top: 120px;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 20px;
+}
+
+.certificate__fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+}
+
+.certificate-field {}
+
+.certificate-field input {
+  background: #FFE4DF;
+  font-family: var(--font-musinka);
+  width: 100%;
+  height: 100px;
+  padding: 15px 20px;
+  transition: all .5s;
+  color: #C70857;
+  line-height: 125%;
+  font-size: 92px;
+}
+
+.certificate-field__label {}
+
+.certificate-field__control {
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 20px;
+}
+
+.certificate-field__action {}
+
+
+/* Реальный тип input не меняется */
+.certificate-field__control--closed .certificate-field__input {
+  color: transparent;
+  caret-color: transparent;
+  pointer-events: none;
+
+  -webkit-text-fill-color: transparent;
+}
+
+.certificate-field__control--closed .certificate-field__input::placeholder {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Скрываем стандартные элементы date/time */
+.certificate-field__control--closed .certificate-field__input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+.certificate-field__control--closed .certificate-field__input::-webkit-inner-spin-button,
+.certificate-field__control--closed .certificate-field__input::-webkit-outer-spin-button {
+  opacity: 0;
+}
+
+.certificate-field__mask {
+  position: absolute;
+  top: 50%;
+  font-family: var(--font-musinka);
+  left: 16px;
+  height: 100%;
+
+  transition: all .5s;
+  overflow: hidden;
+  line-height: 100%;
+
+  color: #C70857;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 92px;
+}
+
+.background span {
+  pointer-events: none;
+  background: #FDD3C3;
+}
+
+.text-block img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
 }
 
 
@@ -392,6 +559,7 @@ button {
   position: relative;
   border-radius: 20px;
   overflow: hidden;
+  padding-bottom: 30px;
 }
 
 .glass-block {
@@ -531,6 +699,47 @@ button {
   box-shadow:
     0 0 0 80px rgb(255 255 255 / 12%),
     0 0 0 160px rgb(255 255 255 / 8%);
+}
+
+.animated-eye {
+  position: relative;
+  display: block;
+  width: 70px;
+  height: 60px;
+  pointer-events: none;
+}
+
+.animated-eye__lid {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: block;
+  width: 70px;
+  height: 49px;
+
+  transform-origin: 50% 50%;
+}
+
+.animated-eye__pupil-position {
+  position: absolute;
+  top: 46px;
+  left: 35px;
+
+  width: 27px;
+  height: 27px;
+
+  transform: translate(-50%, -50%);
+}
+
+.animated-eye__pupil {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  border: 5.5px solid #e699a5;
+  border-radius: 50%;
+  box-sizing: border-box;
 }
 
 .scene-progress {
