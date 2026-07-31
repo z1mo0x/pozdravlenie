@@ -255,6 +255,6 @@ export const introScene: SceneDefinition = {
   particleColor: '#fff',
   Component: IntroScene,
 
-  sound: "/audio/scenes/start.mp3",
-  soundVolume: 0.5,
+  // sound: "/audio/scenes/start.mp3",
+  // soundVolume: 0.5,
 };
