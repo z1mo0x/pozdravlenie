@@ -30,7 +30,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <GreetingProvider childName={childName}>
-      <StorkPreloader />
+      {/* <StorkPreloader /> */}
       <BirthGreeting />
     </GreetingProvider>
   );

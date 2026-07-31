@@ -59,7 +59,7 @@ export default function CertificateField({
                     type={type}
                     value={value}
                     onChange={handleChange}
-                    // placeholder={placeholder}
+                    placeholder={placeholder}
                     className="certificate-field__input"
                     autoComplete="off"
                     readOnly={!isOpened}

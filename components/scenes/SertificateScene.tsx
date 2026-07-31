@@ -224,7 +224,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
                                 label="Вес"
                                 value={certificateData.weight}
                                 type="text"
-                                placeholder="3200"
+                                placeholder="XXX"
                                 onChange={(value) => {
                                     changeCertificateField('weight', value);
                                 }}
@@ -237,7 +237,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
                                 label="Рост"
                                 value={certificateData.height}
                                 type="text"
-                                placeholder="57"
+                                placeholder="XXX"
                                 onChange={(value) => {
                                     changeCertificateField('height', value);
                                 }}
