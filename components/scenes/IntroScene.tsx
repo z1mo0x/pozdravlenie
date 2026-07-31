@@ -229,10 +229,8 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
               transition={{ duration: 1, delay: 1 }}
             >
               <SceneButton disabled={isLocked} onClick={() => {
+                onNext()
                 cookieNext()
-                setTimeout(() => {
-                  onNext()
-                }, 1000);
               }}>
                 Подтвердить
               </SceneButton>
@@ -240,9 +238,7 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
           </>
         }
       </AnimatePresence>
-
-
-    </section >
+    </section>
   );
 }
 
@@ -250,7 +246,7 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
 export const introScene: SceneDefinition = {
   id: "intro",
   title: "Начало",
-  exit: 'particles',
+  exit: 'zoom',
   background: "#fff",
   particleColor: '#fff',
   Component: IntroScene,

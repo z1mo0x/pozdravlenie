@@ -269,9 +269,9 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 
 
 export const certificateScene: SceneDefinition = {
-    id: "intro",
+    id: "certificate",
     title: "Начало",
-    exit: 'particles',
+    exit: 'zoom',
     background: "#FFE4DF",
     particleColor: '#fff',
     Component: CertificateScene,
