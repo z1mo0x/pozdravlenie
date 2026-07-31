@@ -433,6 +433,7 @@ button {
   width: 175px;
   height: 175px;
   border-radius: 50%;
+  cursor: pointer;
   position: relative;
   z-index: 2;
   border: 1px solid #FFF;
