@@ -236,87 +236,6 @@ button {
   gap: 20px;
 }
 
-.certificate__fields {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
-}
-
-.certificate-field {}
-
-.certificate-field input {
-  background: #FFE4DF;
-  font-family: var(--font-musinka);
-  width: 100%;
-  height: 100px;
-  padding: 15px 20px;
-  transition: all .5s;
-  color: #C70857;
-  line-height: 125%;
-  font-size: 92px;
-}
-
-.certificate-field__label {}
-
-.certificate-field__control {
-  display: flex;
-  position: relative;
-  align-items: center;
-  gap: 20px;
-}
-
-.certificate-field__action {}
-
-
-/* Реальный тип input не меняется */
-.certificate-field__control--closed .certificate-field__input {
-  color: transparent;
-  caret-color: transparent;
-  pointer-events: none;
-
-  -webkit-text-fill-color: transparent;
-}
-
-.certificate-field__control--closed .certificate-field__input::placeholder {
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Скрываем стандартные элементы date/time */
-.certificate-field__control--closed .certificate-field__input::-webkit-calendar-picker-indicator {
-  opacity: 0;
-}
-
-.certificate-field__control--closed .certificate-field__input::-webkit-inner-spin-button,
-.certificate-field__control--closed .certificate-field__input::-webkit-outer-spin-button {
-  opacity: 0;
-}
-
-.certificate-field__mask {
-  position: absolute;
-  top: 50%;
-  font-family: var(--font-musinka);
-  left: 16px;
-  height: 100%;
-
-  transition: all .5s;
-  overflow: hidden;
-  line-height: 100%;
-
-  color: #C70857;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  transform: translateY(-50%);
-  pointer-events: none;
-  font-size: 92px;
-}
-
-.background span {
-  pointer-events: none;
-  background: #FDD3C3;
-}
-
 .text-block img {
   position: absolute;
   top: 0;
@@ -786,6 +705,155 @@ button {
   border-radius: 2px;
   background: var(--particle-color);
   will-change: transform, opacity;
+}
+
+.certificate__fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+}
+
+.certificate-field {}
+
+.certificate-field input {
+  background: #FFE4DF;
+  font-family: var(--font-musinka);
+  width: 100%;
+  height: 100px;
+  padding: 15px 20px;
+  transition: all .5s;
+  color: #C70857;
+  border-radius: 20px;
+  line-height: 125%;
+  font-size: 92px;
+}
+
+.certificate-field__label {
+  font-size: 45px;
+  color: #E699A5;
+  text-align: left;
+  width: 100%;
+  display: block;
+}
+
+.certificate-field__control {
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 20px;
+}
+
+.certificate-field__action {
+  cursor: pointer;
+}
+
+
+/* Реальный тип input не меняется */
+.certificate-field__control--closed .certificate-field__input {
+  color: transparent;
+  caret-color: transparent;
+  pointer-events: none;
+
+  -webkit-text-fill-color: transparent;
+}
+
+.certificate-field__control--closed .certificate-field__input::placeholder {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Скрываем стандартные элементы date/time */
+.certificate-field__control--closed .certificate-field__input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+.certificate-field__control--closed .certificate-field__input::-webkit-inner-spin-button,
+.certificate-field__control--closed .certificate-field__input::-webkit-outer-spin-button {
+  opacity: 0;
+}
+
+.certificate-field__mask {
+  position: absolute;
+  top: 50%;
+  font-family: var(--font-musinka);
+  left: 16px;
+  height: 100%;
+
+  overflow: hidden;
+  line-height: 100%;
+
+  color: #C70857;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 92px;
+}
+
+.background span {
+  pointer-events: none;
+  background: #FDD3C3;
+}
+
+.signature-pad {
+  margin-top: 50px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.signature-pad__label {
+  margin-bottom: 5px;
+
+  color: #e893a2;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.signature-pad__window {
+  position: relative;
+
+  width: 100%;
+  height: 200px;
+
+  overflow: hidden;
+
+  border: 1px solid #f3b6af;
+  border-radius: 8px;
+
+  background: transparent;
+}
+
+.signature-pad__canvas {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  cursor: crosshair;
+
+  /*
+     * Без этого при рисовании пальцем
+     * страница будет прокручиваться.
+     */
+  touch-action: none;
+  user-select: none;
+}
+
+.certificate {
+  position: relative;
+  margin-bottom: 200px;
+}
+
+.certificate__stamp {
+  position: absolute;
+  bottom: -50px;
+  right: 300px;
+  width: 300px;
+  height: 400px;
+  background: url('../public/shtamp.png') center / contain no-repeat;
 }
 
 @media (max-width: 760px) {

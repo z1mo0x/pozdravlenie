@@ -8,7 +8,7 @@ import type {
     SceneDefinition,
 } from "@/components/scenes/types";
 import Image from "next/image";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import '@tinymomentum/liquid-glass-react/dist/components/LiquidGlassBase.css';
 import GlassSurface from '@/components/GlassSurface'
 import BlurText from "@/components/BlurText";
@@ -17,6 +17,7 @@ import { playOverlaySound } from "@/lib/audioManager";
 import { toPng } from "html-to-image";
 import CertificateField, { formatDate } from "../ui/certificateField";
 import { useGreeting } from "@/contexts/GreetingContext";
+import SignaturePad from "../ui/sign";
 
 
 type CertificateData = {
@@ -43,6 +44,20 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
         height: '',
         autograph: '',
     });
+
+
+    useEffect(() => {
+        const greetingBlock =
+            document.querySelector<HTMLElement>('.greeting');
+
+        if (!greetingBlock) return;
+
+        greetingBlock.style.minHeight = '200svh';
+
+        return () => {
+            greetingBlock.style.minHeight = '';
+        };
+    }, []);
 
     const changeCertificateField = (
         field: keyof CertificateData,
@@ -155,7 +170,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
                             id="certificate-time"
                             label="Время рождения"
                             value={certificateData.time}
-                            type="time"
+                            type="text"
                             onChange={(value) => {
                                 changeCertificateField('time', value);
                             }}
@@ -186,11 +201,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 
                     <div className="certificate__bottom">
                         <div className="certificate__autograph">
-                            <span>Автограф, пожалуйста</span>
-
-                            <div className="certificate__autograph-field">
-                                {certificateData.autograph}
-                            </div>
+                            <SignaturePad />
                         </div>
 
                         <div className="certificate__stamp" />

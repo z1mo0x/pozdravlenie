@@ -36,9 +36,7 @@ export default function CertificateField({
         setIsOpened((prev) => !prev);
     };
 
-    const hiddenValue = value
-        ? '*'.repeat(Math.min(Math.max(value.length, 8), 12))
-        : placeholder;
+    const hiddenValue = '*'.repeat(Math.min(Math.max(value.length, 8), 12));
 
     return (
         <div className="certificate-field">
@@ -50,7 +48,7 @@ export default function CertificateField({
             </label>
 
             <div
-                className={`certificate-field__control ${isOpened
+                className={`certificate-field__control  ${isOpened
                     ? 'certificate-field__control--opened'
                     : 'certificate-field__control--closed'
                     }`}
@@ -61,7 +59,7 @@ export default function CertificateField({
                     type={type}
                     value={value}
                     onChange={handleChange}
-                    placeholder={placeholder}
+                    // placeholder={placeholder}
                     className="certificate-field__input"
                     autoComplete="off"
                     readOnly={!isOpened}
