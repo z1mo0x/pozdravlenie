@@ -98,71 +98,74 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
         animate={{ opacity: 1, y: 0, x: '-50%' }}
         transition={{ duration: .75, delay: 1.5 }}
       >
-        <motion.div
-          className={`scene__batya ${moustache && 'taken'}`}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            transition: {
-              duration: 0.75,
-              delay: 1.5,
-            },
-          }}
-          exit={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileHover={{
-            scale: 1.1,
-            transition: {
-              duration: 0.5,
-            },
-          }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setMoustache(true)}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={moustache ? 'taken' : 'default'}
-              initial={{
-                opacity: 0,
-                scale: 0.8,
-                rotate: moustache ? -5 : 5,
-                filter: 'blur(4px)',
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                rotate: 0,
-                filter: 'blur(0px)',
-              }}
-              exit={{
-                opacity: 0,
-                scale: 1.15,
-                rotate: moustache ? 5 : -5,
-                filter: 'blur(4px)',
-              }}
-              transition={{
-                duration: 0.35,
-                ease: 'easeInOut',
-              }}
+        {cookieStage === 2 &&
 
-            >
-              <Image
-                src={
-                  moustache
-                    ? '/batya-default-taken.png'
-                    : '/batya-default-item.png'
-                }
-                priority
-                width={100}
-                height={100}
-                alt={moustache ? 'Усы взяты' : 'Усы'}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
+          <motion.div
+            className={`scene__batya ${moustache && 'taken'}`}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: {
+                duration: 0.75,
+                delay: 1.5,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              y: 20,
+            }}
+            whileHover={{
+              scale: 1.1,
+              transition: {
+                duration: 0.5,
+              },
+            }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setMoustache(true)}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={moustache ? 'taken' : 'default'}
+                initial={{
+                  opacity: 0,
+                  scale: 0.8,
+                  rotate: moustache ? -5 : 5,
+                  filter: 'blur(4px)',
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  rotate: 0,
+                  filter: 'blur(0px)',
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 1.15,
+                  rotate: moustache ? 5 : -5,
+                  filter: 'blur(4px)',
+                }}
+                transition={{
+                  duration: 0.35,
+                  ease: 'easeInOut',
+                }}
+
+              >
+                <Image
+                  src={
+                    moustache
+                      ? '/batya-default-taken.png'
+                      : '/batya-default-item.png'
+                  }
+                  priority
+                  width={100}
+                  height={100}
+                  alt={moustache ? 'Усы взяты' : 'Усы'}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
+        }
 
         <div className="">
           <Image src={'/child-no.png'} loading="eager" width={1000} height={700} alt="Ребенок" />
