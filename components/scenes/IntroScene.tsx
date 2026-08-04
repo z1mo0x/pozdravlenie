@@ -18,6 +18,7 @@ import { playOverlaySound } from "@/lib/audioManager";
 function IntroScene({ isLocked, onNext }: SceneComponentProps) {
 
   const [cookieStage, setCookieStage] = useState<number>(0);
+  const [moustache, setMoustache] = useState<boolean>(false);
   const stagesText = {
     success: [
       {
@@ -97,7 +98,92 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
         animate={{ opacity: 1, y: 0, x: '-50%' }}
         transition={{ duration: .75, delay: 1.5 }}
       >
-        <Image src={'/child.png'} loading="eager" width={1000} height={700} alt="Ребенок" />
+        <motion.div
+          className={`scene__batya ${moustache && 'taken'}`}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 0.75,
+              delay: 1.5,
+            },
+          }}
+          exit={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileHover={{
+            scale: 1.1,
+            transition: {
+              duration: 0.5,
+            },
+          }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setMoustache(true)}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={moustache ? 'taken' : 'default'}
+              initial={{
+                opacity: 0,
+                scale: 0.8,
+                rotate: moustache ? -5 : 5,
+                filter: 'blur(4px)',
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                rotate: 0,
+                filter: 'blur(0px)',
+              }}
+              exit={{
+                opacity: 0,
+                scale: 1.15,
+                rotate: moustache ? 5 : -5,
+                filter: 'blur(4px)',
+              }}
+              transition={{
+                duration: 0.35,
+                ease: 'easeInOut',
+              }}
+
+            >
+              <Image
+                src={
+                  moustache
+                    ? '/batya-default-taken.png'
+                    : '/batya-default-item.png'
+                }
+                priority
+                width={100}
+                height={100}
+                alt={moustache ? 'Усы взяты' : 'Усы'}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        <div className="">
+          <Image src={'/child-no.png'} loading="eager" width={1000} height={700} alt="Ребенок" />
+          <div className="foot-block">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: .5, delay: 2.25 }}
+              className="">
+              <Image src={'/foot-1.png'} loading="eager" width={300} height={300} alt="Ребенок" />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: .5, delay: 2.35 }}
+              className="">
+              <Image src={'/foot-2.png'} loading="eager" width={300} height={300} alt="Ребенок" />
+            </motion.div>
+          </div>
+
+        </div>
       </motion.div>
 
       <AnimatePresence mode="wait">
@@ -168,24 +254,22 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
         {
           cookieStage === 1
           &&
-          <>
-            <motion.div
-              initial={{ x: '-100%' }}
-              exit={{ x: '-100%' }}
-              key="cookie-stage-2"
-              animate={{ x: 0 }}
-              transition={{
-                duration: 1,
-                delay: 0,
-              }}
-              className="scene__cookie scene__cookie-2 w-full max-w-[95%]  glass-item">
-              <div className="text-block">
-                <Image src={'/text-block.png'} width={431} height={183} alt="Блок текста" />
-                <div className="text">
-                  да, я - батя!
-                </div>
+          <motion.div
+            initial={{ x: '-100%' }}
+            exit={{ x: '-100%' }}
+            key="cookie-stage-2"
+            animate={{ x: 0 }}
+            transition={{
+              duration: 1,
+              delay: 0,
+            }}
+            className="scene__cookie scene__cookie-2 w-full max-w-[95%]  glass-item">
+            <div className="text-block">
+              <Image src={'/text-block.png'} width={431} height={183} alt="Блок текста" />
+              <div className="text">
+                да, я - батя!
               </div>
-            </motion.div>
+            </div>
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               key="cookie-btn-2"
@@ -196,7 +280,7 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
                 Подтвердить
               </SceneButton>
             </motion.div>
-          </>
+          </motion.div>
         }
         {
           cookieStage === 2
@@ -221,20 +305,23 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
                 </div>
               </div>
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              key="cookie-btn-3"
-              exit={{ opacity: 0 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1 }}
-            >
-              <SceneButton disabled={isLocked} onClick={() => {
-                onNext()
-                cookieNext()
-              }}>
-                Подтвердить
-              </SceneButton>
-            </motion.div>
+            {moustache &&
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                key="cookie-btn-3"
+                exit={{ opacity: 0 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 1 }}
+                className="z-5"
+              >
+                <SceneButton disabled={isLocked} onClick={() => {
+                  onNext()
+                  cookieNext()
+                }}>
+                  Подтвердить
+                </SceneButton>
+              </motion.div>
+            }
           </>
         }
       </AnimatePresence>

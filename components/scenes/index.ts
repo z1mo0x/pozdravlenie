@@ -4,7 +4,7 @@ import type { SceneDefinition } from "@/components/scenes/types";
 import { certificateScene } from './SertificateScene';
 
 export const scenes: SceneDefinition[] = [
-  startScene,
   introScene,
+  startScene,
   certificateScene,
 ];

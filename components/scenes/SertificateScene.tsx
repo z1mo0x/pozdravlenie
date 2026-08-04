@@ -80,7 +80,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 
         if (!greetingBlock) return;
 
-        greetingBlock.style.minHeight = '250svh';
+        greetingBlock.style.minHeight = '275svh';
 
         return () => {
             greetingBlock.style.minHeight = '';
@@ -253,15 +253,55 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
                         <div className="certificate__stamp" />
                     </div>
                 </div>
-                {/* Кнопка находится за пределами ref и не попадёт в PNG */}
-                <button
-                    type="button"
-                    onClick={saveCertificate}
-                    disabled={isSaving}
-                    className="button-second"
+
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{
+                        duration: 0.8,
+                        delay: 0,
+                    }}
+                    className="flex mt-20 backdrop-blur-[20px] gap-20 items-center p-5 rounded-2xl bg-[rgba(255,255,255,.2)]"
                 >
-                    {isSaving ? 'Сохраняем...' : 'Сохранить сертификат'}
-                </button>
+                    <div className="text text-on-white text-left ">
+                        Сохраняя свидетельство Иван Степанович <span>подтверждает</span> что оно будет использоваться исключительно дл<span>я радости и</span> составления натальной карты
+                    </div>
+                    <button
+                        type="button"
+                        onClick={saveCertificate}
+                        disabled={isSaving}
+                        className="button-second shrink-0 w-75 flex justify-center gap-5 "
+                    >
+                        <Image priority src={"/download.svg"}
+                            style={{
+                                width: "30px",
+                                height: "30px",
+                            }}
+                            width={30} height={30} alt="Иконка" />
+                        {isSaving ? 'Сохраняем...' : 'Скачать'}
+                    </button>
+                </motion.div>
+                <div className="flex justify-between items-center">
+                    <div className="text-block text-block-big mt-15">
+                        <Image src={'/big-text-block.png'} width={1065} height={160} alt="Блок текста" />
+                        <div className="text">
+                            Если натальная карта, то только передача!
+                        </div>
+                    </div>
+                    <div className="relative w-85 h-85 flex justify-center items-center">
+                        <Image className="absolute -z-1 left-0 top-0" priority src={"/button-flower-2.png"} width={350} height={350} alt="Иконка" />
+                        <button
+                            type="button"
+                            onClick={onNext}
+                            disabled={isSaving}
+                            className="button-second button-flower shrink-0 flex justify-center items-center gap-5"
+                        >
+                            <span>
+                                Едем дальше
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
     );
@@ -271,7 +311,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 export const certificateScene: SceneDefinition = {
     id: "certificate",
     title: "Начало",
-    exit: 'zoom',
+    exit: 'slide-left',
     background: "#FFE4DF",
     particleColor: '#fff',
     Component: CertificateScene,
