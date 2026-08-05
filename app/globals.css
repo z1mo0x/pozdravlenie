@@ -186,6 +186,26 @@ button {
   height: auto;
 }
 
+.text-block-down {
+  width: 323px;
+  height: 210px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  padding: 20px;
+  transform: translateX(-50%) scale(0.8);
+  visibility: hidden;
+  opacity: 0;
+  transition: all .5s;
+  align-items: flex-start;
+}
+
+.certificate-field__action:hover .text-block-down {
+  transform: translateX(-50%) scale(1);
+  visibility: visible;
+  opacity: 1;
+}
+
 .scene__cookie {
   position: relative;
   z-index: 5;
@@ -239,7 +259,7 @@ button {
 .certificate {
   background: url('../public/certificate-bg.png') top / contain no-repeat;
   width: 100%;
-  height: 1500px;
+  height: 1600px;
   padding: 50px 100px;
   width: 1300px;
   margin: 0 auto;
@@ -247,7 +267,7 @@ button {
 }
 
 .certificate.certificate-saving {
-  height: 1600px;
+  /* height: 1600px; */
 }
 
 .certificate.certificate-saving .certificate__stamp {
@@ -453,7 +473,7 @@ button {
   border-radius: 50%;
   width: 175px;
   height: 175px;
-  background: #FDE0D0;
+  background: #FEE1D175;
 }
 
 .button-flower span {
@@ -495,6 +515,7 @@ button {
   bottom: 44%;
   left: 27%;
   cursor: pointer;
+  z-index: 5;
 }
 
 .scene__batya.taken {
@@ -815,6 +836,7 @@ button {
   border-radius: 20px;
   line-height: 125%;
   font-size: 92px;
+  outline: none;
 }
 
 .certificate-field input::placeholder {
@@ -880,7 +902,7 @@ button {
   text-overflow: ellipsis;
 
   transform: translateY(-50%);
-  pointer-events: none;
+  /* pointer-events: none; */
   font-size: 92px;
 }
 
@@ -941,7 +963,7 @@ button {
 
 .certificate__stamp {
   position: absolute;
-  bottom: -50px;
+  bottom: -0px;
   right: 300px;
   width: 300px;
   height: 400px;

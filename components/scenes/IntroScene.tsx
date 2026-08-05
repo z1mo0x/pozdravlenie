@@ -17,7 +17,7 @@ import { playOverlaySound } from "@/lib/audioManager";
 
 function IntroScene({ isLocked, onNext }: SceneComponentProps) {
 
-  const [cookieStage, setCookieStage] = useState<number>(0);
+  const [cookieStage, setCookieStage] = useState<number>(2);
   const [moustache, setMoustache] = useState<boolean>(false);
   const stagesText = {
     success: [

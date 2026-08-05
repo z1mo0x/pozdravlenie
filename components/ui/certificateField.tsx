@@ -6,6 +6,7 @@ import type {
 } from 'react';
 import { useState } from 'react';
 import { AnimatedEye } from './animatedEye';
+import Image from 'next/image';
 
 type CertificateFieldProps = {
     id: string;
@@ -69,6 +70,7 @@ export default function CertificateField({
                 {!isOpened && (
                     <div
                         className="certificate-field__mask"
+                        onClick={toggleField}
                         aria-hidden="true"
                     >
                         {hiddenValue}
@@ -77,7 +79,7 @@ export default function CertificateField({
 
                 <button
                     type="button"
-                    className="certificate-field__action"
+                    className="certificate-field__action relative"
                     onClick={toggleField}
                     aria-label={
                         isOpened
@@ -86,6 +88,12 @@ export default function CertificateField({
                     }
                     aria-pressed={isOpened}
                 >
+                    <div className="text-block text-block-down">
+                        <Image src={'/text-block-down.png'} width={323} height={210} alt="Блок текста" />
+                        <div className="text">
+                            Расскажи секретик!
+                        </div>
+                    </div>
                     <AnimatedEye isOpen={isOpened} />
                 </button>
             </div>
