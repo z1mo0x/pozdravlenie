@@ -8,15 +8,10 @@ import type {
     SceneDefinition,
 } from "@/components/scenes/types";
 import Image from "next/image";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import '@tinymomentum/liquid-glass-react/dist/components/LiquidGlassBase.css';
-import GlassSurface from '@/components/GlassSurface'
-import BlurText from "@/components/BlurText";
-import { toast } from "sonner";
-import { playOverlaySound } from "@/lib/audioManager";
 import { toPng } from "html-to-image";
-import { jsPDF } from 'jspdf';
-import CertificateField, { formatDate } from "../ui/certificateField";
+import CertificateField from "../ui/certificateField";
 import { useGreeting } from "@/contexts/GreetingContext";
 import SignaturePad from "../ui/sign";
 
