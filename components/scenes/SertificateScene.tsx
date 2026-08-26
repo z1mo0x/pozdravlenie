@@ -59,10 +59,12 @@ const fieldVariants = {
         },
     },
 };
+
 function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 
     const certificateRef = useRef<HTMLDivElement>(null);
     const [isSaving, setIsSaving] = useState(false);
+    const [tab, setTab] = useState<"father" | 'mother'>('father');
     const { childName } = useGreeting();
     const [certificateData, setCertificateData] = useState<CertificateData>({
         name: childName,
@@ -73,7 +75,15 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
         height: '',
         autograph: '',
     });
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsFirstRender(false);
+        }, 1500);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(() => {
         const greetingBlock =
@@ -81,7 +91,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 
         if (!greetingBlock) return;
 
-        greetingBlock.style.minHeight = '260svh';
+        greetingBlock.style.minHeight = '275svh';
 
         return () => {
             greetingBlock.style.minHeight = '';
@@ -135,7 +145,50 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
                 <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
             </div>
             <div className="scene__content">
-                TABS
+                <div className="scene__tabs">
+                    <button
+                        onClick={() => setTab('father')}
+                        className={`button-second ${tab === "father" && 'active'} shrink-0`}>
+                        <span>
+                            Для папочки
+                        </span>
+                        <div className="button-bg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="175" height="175" viewBox="0 0 175 175" fill="none">
+                                <g filter="url(#filter0_f_1_37)">
+                                    <circle cx="130" cy="133" r="67" fill="#DF8E97" />
+                                </g>
+                                <defs>
+                                    <filter id="filter0_f_1_37" x="-55.3" y="-52.3" width="370.6" height="370.6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                        <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                                        <feGaussianBlur stdDeviation="59.15" result="effect1_foregroundBlur_1_37" />
+                                    </filter>
+                                </defs>
+                            </svg>
+                        </div>
+                    </button>
+                    <button
+                        onClick={() => setTab('mother')}
+                        className={`button-second  ${tab === "mother" && 'active'} shrink-0`}>
+                        <span>
+                            Для мамочки
+                        </span>
+                        <div className="button-bg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="175" height="175" viewBox="0 0 175 175" fill="none">
+                                <g filter="url(#filter0_f_1_37)">
+                                    <circle cx="130" cy="133" r="67" fill="#DF8E97" />
+                                </g>
+                                <defs>
+                                    <filter id="filter0_f_1_37" x="-55.3" y="-52.3" width="370.6" height="370.6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                        <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                                        <feGaussianBlur stdDeviation="59.15" result="effect1_foregroundBlur_1_37" />
+                                    </filter>
+                                </defs>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
                 <div>
                     <div className={`certificate ${isSaving ? 'certificate-saving' : ''}`} ref={certificateRef}>
                         <motion.h1
@@ -156,13 +209,26 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
                             >
                                 о становлении
                             </motion.p>
-                            <motion.span
-                                initial={{ opacity: 0, rotate: 0, y: 0, x: 0 }}
-                                animate={{ opacity: 1, rotate: -10, y: 10, x: -15 }}
-                                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1.25 }}
-                            >
-                                батьком
-                            </motion.span>
+                            <AnimatePresence mode='wait'>
+                                <motion.span
+                                    key={tab}
+                                    initial={{ opacity: 0, rotate: 0, y: 0, x: 0 }}
+                                    exit={{
+                                        opacity: 0,
+                                        rotate: 0,
+                                        y: 0,
+                                        x: 0,
+                                    }}
+                                    animate={{ opacity: 1, rotate: -10, y: 10, x: -15 }}
+                                    transition={{
+                                        duration: 1,
+                                        ease: [0.22, 1, 0.36, 1],
+                                        delay: isFirstRender ? 1.25 : 0
+                                    }}
+                                >
+                                    {tab === 'father' ? 'Батьком' : 'Мамочкой'}
+                                </motion.span>
+                            </AnimatePresence>
                         </motion.h1>
                         <motion.div
                             className="certificate__fields"

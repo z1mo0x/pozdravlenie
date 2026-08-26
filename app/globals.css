@@ -271,7 +271,7 @@ button {
 }
 
 .certificate.certificate-saving .certificate__stamp {
-  bottom: 25px;
+  bottom: -25px;
 }
 
 
@@ -467,6 +467,45 @@ button {
   z-index: -1;
   opacity: .2;
   background: linear-gradient(45deg, #FFFFFF, #FEE1D1);
+}
+
+.scene__tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 50px;
+
+}
+
+.scene__tabs .button-second::before {
+  opacity: 0;
+  top: -50px;
+  width: 225px;
+  height: 225px;
+}
+
+.scene__tabs .button-second {
+  color: #E699A5;
+  transition: all .5s;
+  min-width: 300px;
+}
+
+.scene__tabs .button-second.active {
+  color: white;
+}
+
+.scene__tabs .button-second.active::before {
+  opacity: 1;
+}
+
+.scene__tabs .button-second:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px) scale(1.1);
+}
+
+.scene__tabs .button-second:hover {
+  color: white;
 }
 
 .button-flower {
@@ -862,6 +901,10 @@ button {
   cursor: pointer;
 }
 
+.certificate-field__action .text-block-down {
+  pointer-events: none;
+}
+
 
 /* Реальный тип input не меняется */
 .certificate-field__control--closed .certificate-field__input {
@@ -965,9 +1008,9 @@ button {
   position: absolute;
   bottom: -0px;
   right: 300px;
-  width: 300px;
-  height: 400px;
-  background: url('../public/shtamp.png') top / contain no-repeat;
+  width: 400px;
+  height: 500px;
+  background: url('../public/stamp-2.png') top / contain no-repeat;
 }
 
 @media (max-width: 760px) {
