@@ -4,382 +4,457 @@ import { AnimatePresence, motion } from "motion/react";
 
 import SceneButton from "@/components/SceneButton";
 import type {
-    SceneComponentProps,
-    SceneDefinition,
+  SceneComponentProps,
+  SceneDefinition,
 } from "@/components/scenes/types";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import '@tinymomentum/liquid-glass-react/dist/components/LiquidGlassBase.css';
+import "@tinymomentum/liquid-glass-react/dist/components/LiquidGlassBase.css";
 import { toPng } from "html-to-image";
 import CertificateField from "../ui/certificateField";
 import { useGreeting } from "@/contexts/GreetingContext";
 import SignaturePad from "../ui/sign";
 
-
 type CertificateData = {
-    name: string;
-    birthday: string;
-    city: string;
-    time: string;
-    weight: string;
-    height: string;
-    autograph: string;
+  name: string;
+  birthday: string;
+  city: string;
+  time: string;
+  weight: string;
+  height: string;
+  autograph: string;
 };
 
 const fieldsContainerVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            delayChildren: 1.6,
-            staggerChildren: 0.25,
-        },
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 1.6,
+      staggerChildren: 0.25,
     },
+  },
 };
 
 const fieldVariants = {
-    hidden: {
-        opacity: 0,
-        y: 18,
-        scale: 0.98,
-        filter: 'blur(5px)',
+  hidden: {
+    opacity: 0,
+    y: 18,
+    scale: 0.98,
+    filter: "blur(5px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1] as const,
     },
-    visible: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        filter: 'blur(0px)',
-        transition: {
-            duration: 0.8,
-            ease: [0.22, 1, 0.36, 1] as const,
-        },
-    },
+  },
 };
 
 function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
+  const certificateRef = useRef<HTMLDivElement>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [tab, setTab] = useState<"father" | "mother">("father");
+  const { childName } = useGreeting();
+  const [certificateData, setCertificateData] = useState<CertificateData>({
+    name: childName,
+    birthday: "",
+    city: "",
+    time: "",
+    weight: "",
+    height: "",
+    autograph: "",
+  });
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
-    const certificateRef = useRef<HTMLDivElement>(null);
-    const [isSaving, setIsSaving] = useState(false);
-    const [tab, setTab] = useState<"father" | 'mother'>('father');
-    const { childName } = useGreeting();
-    const [certificateData, setCertificateData] = useState<CertificateData>({
-        name: childName,
-        birthday: '',
-        city: '',
-        time: '',
-        weight: '',
-        height: '',
-        autograph: '',
-    });
-    const [isFirstRender, setIsFirstRender] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsFirstRender(false);
+    }, 1500);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsFirstRender(false);
-        }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
-        return () => clearTimeout(timer);
-    }, []);
+  useEffect(() => {
+    const greetingBlock = document.querySelector<HTMLElement>(".greeting");
 
-    useEffect(() => {
-        const greetingBlock =
-            document.querySelector<HTMLElement>('.greeting');
+    if (!greetingBlock) return;
 
-        if (!greetingBlock) return;
+    greetingBlock.style.minHeight = "250svh";
 
-        greetingBlock.style.minHeight = '275svh';
-
-        return () => {
-            greetingBlock.style.minHeight = '';
-        };
-    }, []);
-
-    const changeCertificateField = (
-        field: keyof CertificateData,
-        value: string,
-    ) => {
-        setCertificateData((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
+    return () => {
+      greetingBlock.style.minHeight = "";
     };
+  }, []);
 
-    const saveCertificate = async () => {
-        const certificate = certificateRef.current;
+  const changeCertificateField = (
+    field: keyof CertificateData,
+    value: string,
+  ) => {
+    setCertificateData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-        if (!certificate || isSaving) {
-            return;
-        }
+  const saveCertificate = async () => {
+    const certificate = certificateRef.current;
 
-        try {
-            setIsSaving(true);
+    if (!certificate || isSaving) {
+      return;
+    }
 
-            // Ждём загрузки шрифтов, чтобы они попали в итоговую картинку
-            await document.fonts.ready;
+    try {
+      setIsSaving(true);
 
-            const image = await toPng(certificate, {
-                cacheBust: true,
-                pixelRatio: 5,
-                backgroundColor: '#ffd2c4',
-            });
+      // Ждём загрузки шрифтов, чтобы они попали в итоговую картинку
+      await document.fonts.ready;
 
-            const link = document.createElement('a');
+      const image = await toPng(certificate, {
+        cacheBust: true,
+        pixelRatio: 5,
+        backgroundColor: "#ffd2c4",
+      });
 
-            link.download = 'svidetelstvo-bati.png';
-            link.href = image;
-            link.click();
-        } catch (error) {
-            console.error('Не удалось сохранить сертификат:', error);
-        } finally {
-            setIsSaving(false);
-        }
-    };
+      const link = document.createElement("a");
 
-    return (
-        <section className="scene scene--certificate relative ">
-            <div className="background">
-                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      link.download = "svidetelstvo-bati.png";
+      link.href = image;
+      link.click();
+    } catch (error) {
+      console.error("Не удалось сохранить сертификат:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <section className="scene scene--certificate relative ">
+      <div className="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div className="scene__content">
+        <div className="scene__tabs">
+          <button
+            onClick={() => setTab("father")}
+            className={`button-second ${tab === "father" && "active"} shrink-0`}
+          >
+            <span>Для папочки</span>
+            <div className="button-bg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="175"
+                height="175"
+                viewBox="0 0 175 175"
+                fill="none"
+              >
+                <g filter="url(#filter0_f_1_37)">
+                  <circle cx="130" cy="133" r="67" fill="#DF8E97" />
+                </g>
+                <defs>
+                  <filter
+                    id="filter0_f_1_37"
+                    x="-55.3"
+                    y="-52.3"
+                    width="370.6"
+                    height="370.6"
+                    filterUnits="userSpaceOnUse"
+                    colorInterpolationFilters="sRGB"
+                  >
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                    <feBlend
+                      mode="normal"
+                      in="SourceGraphic"
+                      in2="BackgroundImageFix"
+                      result="shape"
+                    />
+                    <feGaussianBlur
+                      stdDeviation="59.15"
+                      result="effect1_foregroundBlur_1_37"
+                    />
+                  </filter>
+                </defs>
+              </svg>
             </div>
-            <div className="scene__content">
-                <div className="scene__tabs">
-                    <button
-                        onClick={() => setTab('father')}
-                        className={`button-second ${tab === "father" && 'active'} shrink-0`}>
-                        <span>
-                            Для папочки
-                        </span>
-                        <div className="button-bg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="175" height="175" viewBox="0 0 175 175" fill="none">
-                                <g filter="url(#filter0_f_1_37)">
-                                    <circle cx="130" cy="133" r="67" fill="#DF8E97" />
-                                </g>
-                                <defs>
-                                    <filter id="filter0_f_1_37" x="-55.3" y="-52.3" width="370.6" height="370.6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                                        <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-                                        <feGaussianBlur stdDeviation="59.15" result="effect1_foregroundBlur_1_37" />
-                                    </filter>
-                                </defs>
-                            </svg>
-                        </div>
-                    </button>
-                    <button
-                        onClick={() => setTab('mother')}
-                        className={`button-second  ${tab === "mother" && 'active'} shrink-0`}>
-                        <span>
-                            Для мамочки
-                        </span>
-                        <div className="button-bg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="175" height="175" viewBox="0 0 175 175" fill="none">
-                                <g filter="url(#filter0_f_1_37)">
-                                    <circle cx="130" cy="133" r="67" fill="#DF8E97" />
-                                </g>
-                                <defs>
-                                    <filter id="filter0_f_1_37" x="-55.3" y="-52.3" width="370.6" height="370.6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                                        <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-                                        <feGaussianBlur stdDeviation="59.15" result="effect1_foregroundBlur_1_37" />
-                                    </filter>
-                                </defs>
-                            </svg>
-                        </div>
-                    </button>
-                </div>
-                <div>
-                    <div className={`certificate ${isSaving ? 'certificate-saving' : ''}`} ref={certificateRef}>
-                        <motion.h1
-                            className="scene__title scene__title--hero"
-                        >
-                            <motion.p
-                                initial={{ opacity: 0, y: 36 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .5 }}
-                            >
-                                Свидетельство
-
-                            </motion.p>
-                            <motion.p
-                                initial={{ opacity: 0, y: 36 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: .75 }}
-                            >
-                                о становлении
-                            </motion.p>
-                            <AnimatePresence mode='wait'>
-                                <motion.span
-                                    key={tab}
-                                    initial={{ opacity: 0, rotate: 0, y: 0, x: 0 }}
-                                    exit={{
-                                        opacity: 0,
-                                        rotate: 0,
-                                        y: 0,
-                                        x: 0,
-                                    }}
-                                    animate={{ opacity: 1, rotate: -10, y: 10, x: -15 }}
-                                    transition={{
-                                        duration: 1,
-                                        ease: [0.22, 1, 0.36, 1],
-                                        delay: isFirstRender ? 1.25 : 0
-                                    }}
-                                >
-                                    {tab === 'father' ? 'Батьком' : 'Мамочкой'}
-                                </motion.span>
-                            </AnimatePresence>
-                        </motion.h1>
-                        <motion.div
-                            className="certificate__fields"
-                            variants={fieldsContainerVariants}
-                            initial="hidden"
-                            animate="visible"
-                        >
-                            <motion.div variants={fieldVariants}>
-                                <CertificateField
-                                    id="certificate-name"
-                                    label="Имя"
-                                    value={certificateData.name}
-                                    placeholder="Имя"
-                                    onChange={(value) => {
-                                        changeCertificateField('name', value);
-                                    }}
-                                />
-                            </motion.div>
-
-                            <motion.div variants={fieldVariants}>
-                                <CertificateField
-                                    id="certificate-birthday"
-                                    label="Дата рождения"
-                                    value={certificateData.birthday}
-                                    type="text"
-                                    placeholder="Дата"
-                                    onChange={(value) => {
-                                        changeCertificateField('birthday', value);
-                                    }}
-                                />
-                            </motion.div>
-
-                            <motion.div variants={fieldVariants}>
-                                <CertificateField
-                                    id="certificate-city"
-                                    label="Город"
-                                    value={certificateData.city}
-                                    placeholder="Введите город"
-                                    onChange={(value) => {
-                                        changeCertificateField('city', value);
-                                    }}
-                                />
-                            </motion.div>
-
-                            <motion.div variants={fieldVariants}>
-                                <CertificateField
-                                    id="certificate-time"
-                                    label="Время рождения"
-                                    value={certificateData.time}
-                                    type="text"
-                                    placeholder="Время"
-                                    onChange={(value) => {
-                                        changeCertificateField('time', value);
-                                    }}
-                                />
-                            </motion.div>
-
-                            <motion.div variants={fieldVariants}>
-                                <CertificateField
-                                    id="certificate-weight"
-                                    label="Вес"
-                                    value={certificateData.weight}
-                                    type="text"
-                                    placeholder="XXX"
-                                    onChange={(value) => {
-                                        changeCertificateField('weight', value);
-                                    }}
-                                />
-                            </motion.div>
-
-                            <motion.div variants={fieldVariants}>
-                                <CertificateField
-                                    id="certificate-height"
-                                    label="Рост"
-                                    value={certificateData.height}
-                                    type="text"
-                                    placeholder="XXX"
-                                    onChange={(value) => {
-                                        changeCertificateField('height', value);
-                                    }}
-                                />
-                            </motion.div>
-                        </motion.div>
-
-                        <div className="certificate__bottom">
-                            <div className="certificate__autograph">
-                                <SignaturePad />
-                            </div>
-
-                            <div className="certificate__stamp" />
-                        </div>
-                    </div>
-                </div>
-
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{
-                        duration: 0.8,
-                        delay: 0,
-                    }}
-                    className="flex mt-10 backdrop-blur-[5px] gap-20 items-center p-5 rounded-2xl bg-[rgba(255,255,255,.2)]"
+          </button>
+          <button
+            onClick={() => setTab("mother")}
+            className={`button-second  ${tab === "mother" && "active"} shrink-0`}
+          >
+            <span>Для мамочки</span>
+            <div className="button-bg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="175"
+                height="175"
+                viewBox="0 0 175 175"
+                fill="none"
+              >
+                <g filter="url(#filter0_f_1_37)">
+                  <circle cx="130" cy="133" r="67" fill="#DF8E97" />
+                </g>
+                <defs>
+                  <filter
+                    id="filter0_f_1_37"
+                    x="-55.3"
+                    y="-52.3"
+                    width="370.6"
+                    height="370.6"
+                    filterUnits="userSpaceOnUse"
+                    colorInterpolationFilters="sRGB"
+                  >
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                    <feBlend
+                      mode="normal"
+                      in="SourceGraphic"
+                      in2="BackgroundImageFix"
+                      result="shape"
+                    />
+                    <feGaussianBlur
+                      stdDeviation="59.15"
+                      result="effect1_foregroundBlur_1_37"
+                    />
+                  </filter>
+                </defs>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div>
+          <div
+            className={`certificate ${isSaving ? "certificate-saving" : ""}`}
+            ref={certificateRef}
+          >
+            <motion.h1 className="scene__title scene__title--hero">
+              <motion.p
+                initial={{ opacity: 0, y: 36 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 1,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: 0.5,
+                }}
+              >
+                Свидетельство
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 36 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 1,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: 0.75,
+                }}
+              >
+                о становлении
+              </motion.p>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={tab}
+                  initial={{ opacity: 0, rotate: 0, y: 0, x: 0 }}
+                  exit={{
+                    opacity: 0,
+                    rotate: 0,
+                    y: 0,
+                    x: 0,
+                  }}
+                  animate={{ opacity: 1, rotate: -10, y: 10, x: -15 }}
+                  transition={{
+                    duration: 1,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: isFirstRender ? 1.25 : 0,
+                  }}
                 >
-                    <div className="text text-on-white text-left ">
-                        Сохраняя свидетельство Иван Степанович <span>подтверждает</span> что оно будет использоваться исключительно дл<span>я радости и</span> составления натальной карты
-                    </div>
-                    <button
-                        type="button"
-                        onClick={saveCertificate}
-                        disabled={isSaving}
-                        className="button-second shrink-0 w-75 flex justify-center gap-5 "
-                    >
-                        <Image priority src={"/download.svg"}
-                            style={{
-                                width: "30px",
-                                height: "30px",
-                            }}
-                            width={30} height={30} alt="Иконка" />
-                        {isSaving ? 'Сохраняем...' : 'Скачать'}
-                    </button>
-                </motion.div>
-                <div className="flex justify-between items-center -mt-7.5">
-                    <div className="text-block text-block-big mt-15">
-                        <Image src={'/big-text-block.png'} width={1065} height={160} alt="Блок текста" />
-                        <div className="text">
-                            Если натальная карта, то только передача!
-                        </div>
-                    </div>
-                    <div className="relative w-85 h-85 flex justify-center items-center">
-                        <Image className="absolute -z-1 left-0 top-0" priority src={"/button-flower-2.png"} width={350} height={350} alt="Иконка" />
-                        <button
-                            type="button"
-                            onClick={onNext}
-                            disabled={isSaving}
-                            className="button-second button-flower shrink-0 flex justify-center items-center gap-5"
-                        >
-                            <span>
-                                Едем дальше
-                            </span>
-                        </button>
-                    </div>
-                </div>
+                  {tab === "father" ? "Батьком" : "Мамочкой"}
+                </motion.span>
+              </AnimatePresence>
+            </motion.h1>
+            <motion.div
+              className="certificate__fields"
+              variants={fieldsContainerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={fieldVariants}>
+                <CertificateField
+                  id="certificate-name"
+                  label="Имя"
+                  value={certificateData.name}
+                  placeholder="Имя"
+                  onChange={(value) => {
+                    changeCertificateField("name", value);
+                  }}
+                />
+              </motion.div>
+
+              <motion.div variants={fieldVariants}>
+                <CertificateField
+                  id="certificate-birthday"
+                  label="Дата рождения"
+                  value={certificateData.birthday}
+                  type="text"
+                  placeholder="Дата"
+                  onChange={(value) => {
+                    changeCertificateField("birthday", value);
+                  }}
+                />
+              </motion.div>
+
+              <motion.div variants={fieldVariants}>
+                <CertificateField
+                  id="certificate-city"
+                  label="Город"
+                  value={certificateData.city}
+                  placeholder="Введите город"
+                  onChange={(value) => {
+                    changeCertificateField("city", value);
+                  }}
+                />
+              </motion.div>
+
+              <motion.div variants={fieldVariants}>
+                <CertificateField
+                  id="certificate-time"
+                  label="Время рождения"
+                  value={certificateData.time}
+                  type="text"
+                  placeholder="Время"
+                  onChange={(value) => {
+                    changeCertificateField("time", value);
+                  }}
+                />
+              </motion.div>
+
+              <motion.div variants={fieldVariants}>
+                <CertificateField
+                  id="certificate-weight"
+                  label="Вес"
+                  value={certificateData.weight}
+                  type="text"
+                  placeholder="XXX"
+                  onChange={(value) => {
+                    changeCertificateField("weight", value);
+                  }}
+                />
+              </motion.div>
+
+              <motion.div variants={fieldVariants}>
+                <CertificateField
+                  id="certificate-height"
+                  label="Рост"
+                  value={certificateData.height}
+                  type="text"
+                  placeholder="XXX"
+                  onChange={(value) => {
+                    changeCertificateField("height", value);
+                  }}
+                />
+              </motion.div>
+            </motion.div>
+
+            <div className="certificate__bottom">
+              <div className="certificate__autograph">
+                <SignaturePad />
+              </div>
+
+              <div className="certificate__stamp" />
             </div>
-        </section>
-    );
+          </div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{
+            duration: 0.8,
+            delay: 0,
+          }}
+          className="flex mt-10 backdrop-blur-[5px] gap-20 items-center p-5 rounded-2xl bg-[rgba(255,255,255,.2)]"
+        >
+          <div className="text text-on-white text-left ">
+            Сохраняя свидетельство Иван Степанович <span>подтверждает</span> что
+            оно будет использоваться исключительно дл<span>я радости и</span>{" "}
+            составления натальной карты
+          </div>
+          <button
+            type="button"
+            onClick={saveCertificate}
+            disabled={isSaving}
+            className="button-second shrink-0 w-75 flex justify-center gap-5 "
+          >
+            <Image
+              priority
+              src={"/download.svg"}
+              style={{
+                width: "30px",
+                height: "30px",
+              }}
+              width={30}
+              height={30}
+              alt="Иконка"
+            />
+            {isSaving ? "Сохраняем..." : "Скачать"}
+          </button>
+        </motion.div>
+        <div className="flex justify-between items-center -mt-7.5">
+          <div className="text-block text-block-big mt-15">
+            <Image
+              src={"/big-text-block.png"}
+              width={1065}
+              height={160}
+              alt="Блок текста"
+            />
+            <div className="text">
+              Если натальная карта, то только передача!
+            </div>
+          </div>
+          <div className="relative w-85 h-85 flex justify-center items-center">
+            <Image
+              className="absolute -z-1 left-0 top-0"
+              priority
+              src={"/button-flower-2.png"}
+              width={350}
+              height={350}
+              alt="Иконка"
+            />
+            <button
+              type="button"
+              onClick={onNext}
+              disabled={isSaving}
+              className="button-second button-flower shrink-0 flex justify-center items-center gap-5"
+            >
+              <span>Едем дальше</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-
 export const certificateScene: SceneDefinition = {
-    id: "certificate",
-    title: "Начало",
-    exit: 'slide-left',
-    background: "#FFE4DF",
-    particleColor: '#fff',
-    Component: CertificateScene,
+  id: "certificate",
+  title: "Начало",
+  exit: "slide-left",
+  background: "#FFE4DF",
+  particleColor: "#fff",
+  Component: CertificateScene,
 
-    sound: "/audio/scenes/start.mp3",
-    soundVolume: 0.5,
+  sound: "/audio/scenes/start.mp3",
+  soundVolume: 0.5,
 };

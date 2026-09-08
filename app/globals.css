@@ -196,7 +196,7 @@ button {
   transform: translateX(-50%) scale(0.8);
   visibility: hidden;
   opacity: 0;
-  transition: all .5s;
+  transition: all 0.5s;
   align-items: flex-start;
 }
 
@@ -248,7 +248,7 @@ button {
 .scene--certificate .scene__title span {
   max-width: unset;
   font-size: 350px;
-  color: #E699A5;
+  color: #e699a5;
   margin-left: 200px;
 }
 
@@ -257,7 +257,7 @@ button {
 }
 
 .certificate {
-  background: url('../public/certificate-bg.png') top / contain no-repeat;
+  background: url("../public/certificate-bg.png") top / contain no-repeat;
   width: 100%;
   height: 1600px;
   padding: 50px 100px;
@@ -273,7 +273,6 @@ button {
 .certificate.certificate-saving .certificate__stamp {
   bottom: -25px;
 }
-
 
 .background {
   position: fixed;
@@ -294,7 +293,6 @@ button {
   z-index: -1;
   pointer-events: none;
 }
-
 
 .scene--date {
   color: #24465f;
@@ -344,7 +342,7 @@ button {
   letter-spacing: -0.055em;
   overflow-wrap: anywhere;
   font-family: var(--font-labor);
-  color: #C70857;
+  color: #c70857;
 }
 
 .scene__title p {
@@ -381,46 +379,43 @@ button {
 }
 
 .text-on-white {
-  color: #E699A5;
+  color: #e699a5;
 }
 
 .text span {
   display: inline;
   position: relative;
   width: max-content;
-
 }
 
 .text span::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   height: 20px;
   top: calc(100% - 10px);
-  background: url('../public/underline.svg') left no-repeat;
+  background: url("../public/underline.svg") left no-repeat;
   background-size: contain;
 }
 
 .text-on-white span::before {
-  background: url('../public/underline-white.svg') left no-repeat;
+  background: url("../public/underline-white.svg") left no-repeat;
   width: 120%;
   height: 15px;
   background-size: contain;
 }
 
-
-
 .button-second {
   font-family: var(--font-glina), sans-serif;
   color: white;
   font-size: 30px;
-  background: #FFFFFF40;
+  background: #ffffff40;
   position: relative;
   overflow: hidden;
   padding: 20px;
   border-radius: 15px;
   cursor: pointer;
-  border: 1px solid #FFFFFF80;
+  border: 1px solid #ffffff80;
 }
 
 .button-second img {
@@ -435,19 +430,18 @@ button {
   transform: translateX(-50%);
 }
 
-
 .button-second::before {
-  content: '';
+  content: "";
   width: 252px;
   height: 252px;
-  background: #DF8E97;
+  background: #df8e97;
   position: absolute;
   border-radius: 50%;
   z-index: -1;
   filter: blur(10px);
   top: 0;
   left: 50%;
-  transition: all .5s;
+  transition: all 0.5s;
   transform: translateX(-50%);
 }
 
@@ -456,17 +450,16 @@ button {
   filter: blur(15px);
 }
 
-
 .button-second::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
-  opacity: .2;
-  background: linear-gradient(45deg, #FFFFFF, #FEE1D1);
+  opacity: 0.2;
+  background: linear-gradient(45deg, #ffffff, #fee1d1);
 }
 
 .scene__tabs {
@@ -475,7 +468,6 @@ button {
   justify-content: center;
   gap: 30px;
   margin-bottom: 50px;
-
 }
 
 .scene__tabs .button-second::before {
@@ -486,8 +478,8 @@ button {
 }
 
 .scene__tabs .button-second {
-  color: #E699A5;
-  transition: all .5s;
+  color: #e699a5;
+  transition: all 0.5s;
   min-width: 300px;
 }
 
@@ -512,7 +504,7 @@ button {
   border-radius: 50%;
   width: 175px;
   height: 175px;
-  background: #FEE1D175;
+  background: #fee1d175;
 }
 
 .button-flower span {
@@ -532,7 +524,6 @@ button {
   transform: translateX(-60%) translateY(-20px);
   filter: blur(15px);
 }
-
 
 .scene__text--left {
   margin-right: 0;
@@ -562,8 +553,7 @@ button {
   left: 28%;
 }
 
-
-.scene__image>img {
+.scene__image > img {
   height: 100%;
   width: 100%;
 }
@@ -575,10 +565,10 @@ button {
   cursor: pointer;
   position: relative;
   z-index: 2;
-  border: 1px solid #FFF;
+  border: 1px solid #fff;
   /* background: rgba(255, 255, 255, 0.20); */
   margin: 0 auto;
-  color: #FFF;
+  color: #fff;
   font-family: var(--font-glina), cursive;
   font-size: 30px;
   font-weight: 400;
@@ -586,7 +576,7 @@ button {
   overflow: hidden;
   background: none;
   z-index: 2;
-  color: #FFF;
+  color: #fff;
   font-size: 30px;
   font-weight: 400;
   line-height: normal;
@@ -601,13 +591,17 @@ button {
   border-radius: inherit;
 
   background:
-    radial-gradient(circle at 25% 75%,
+    radial-gradient(
+      circle at 25% 75%,
       rgba(255, 255, 255, 0.65) 0,
       rgba(255, 255, 255, 0.18) 20%,
-      transparent 45%),
-    linear-gradient(135deg,
+      transparent 45%
+    ),
+    linear-gradient(
+      135deg,
       rgba(255, 255, 255, 0.28),
-      rgba(225, 144, 156, 0.36));
+      rgba(225, 144, 156, 0.36)
+    );
 }
 
 /* .scene-button::after {
@@ -632,10 +626,8 @@ button {
 
 .glass-block {
   background:
-    linear-gradient(rgba(225, 144, 156, 0.41),
-      rgba(225, 144, 156, 0.41)),
-    linear-gradient(rgba(255, 255, 255, 0.20),
-      rgba(255, 255, 255, 0.20));
+    linear-gradient(rgba(225, 144, 156, 0.41), rgba(225, 144, 156, 0.41)),
+    linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
   position: absolute;
   top: 0;
   left: 0;
@@ -862,16 +854,17 @@ button {
   gap: 50px;
 }
 
-.certificate-field {}
+.certificate-field {
+}
 
 .certificate-field input {
-  background: #FFE4DF;
+  background: #ffe4df;
   font-family: var(--font-musinka);
   width: 100%;
   height: 100px;
   padding: 15px 20px;
-  transition: all .5s;
-  color: #C70857;
+  transition: all 0.5s;
+  color: #c70857;
   border-radius: 20px;
   line-height: 125%;
   font-size: 92px;
@@ -884,7 +877,7 @@ button {
 
 .certificate-field__label {
   font-size: 45px;
-  color: #E699A5;
+  color: #e699a5;
   text-align: left;
   width: 100%;
   display: block;
@@ -905,7 +898,6 @@ button {
   pointer-events: none;
 }
 
-
 /* Реальный тип input не меняется */
 .certificate-field__control--closed .certificate-field__input {
   color: transparent;
@@ -921,12 +913,15 @@ button {
 }
 
 /* Скрываем стандартные элементы date/time */
-.certificate-field__control--closed .certificate-field__input::-webkit-calendar-picker-indicator {
+.certificate-field__control--closed
+  .certificate-field__input::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
 
-.certificate-field__control--closed .certificate-field__input::-webkit-inner-spin-button,
-.certificate-field__control--closed .certificate-field__input::-webkit-outer-spin-button {
+.certificate-field__control--closed
+  .certificate-field__input::-webkit-inner-spin-button,
+.certificate-field__control--closed
+  .certificate-field__input::-webkit-outer-spin-button {
   opacity: 0;
 }
 
@@ -940,7 +935,7 @@ button {
   overflow: hidden;
   line-height: 100%;
 
-  color: #C70857;
+  color: #c70857;
   white-space: nowrap;
   text-overflow: ellipsis;
 
@@ -951,7 +946,7 @@ button {
 
 .background span {
   pointer-events: none;
-  background: #FDD3C3;
+  background: #fdd3c3;
 }
 
 .signature-pad {
@@ -1010,7 +1005,7 @@ button {
   right: 300px;
   width: 400px;
   height: 500px;
-  background: url('../public/stamp-2.png') top / contain no-repeat;
+  background: url("../public/stamp-2.png") top / contain no-repeat;
 }
 
 @media (max-width: 760px) {
@@ -1176,7 +1171,7 @@ button {
 }
 
 .foot-block::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   height: 1px;
@@ -1184,7 +1179,7 @@ button {
   transform: translateX(-50%);
   width: 30%;
   background: transparent;
-  backdrop-filter: blur(100px)
+  backdrop-filter: blur(100px);
 }
 
 .foot-block div:nth-child(1) img {
@@ -1197,14 +1192,12 @@ button {
 }
 
 .foot-block div:nth-child(1) img {
-  animation: foot 2s .5s alternate linear infinite;
+  animation: foot 2s 0.5s alternate linear infinite;
 }
 
 .foot-block div:nth-child(2) img {
   animation: footSecond 2s alternate linear infinite;
-
 }
-
 
 @keyframes foot {
   from {
@@ -1224,4 +1217,15 @@ button {
   to {
     transform: translateY(20px) rotate(8deg);
   }
+}
+
+/* Wishes Scene */
+.scene--wishes {
+  color: #c70857;
+}
+
+.scene--wishes .scene__title span {
+  max-width: unset;
+  white-space: nowrap;
+  font-size: 300px;
 }

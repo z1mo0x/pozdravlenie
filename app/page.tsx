@@ -15,10 +15,7 @@ function normalizeName(value: string | string[] | undefined) {
     return "Малыш";
   }
 
-  const cleanName = rawName
-    .trim()
-    .replace(/\s+/g, " ")
-    .slice(0, 40);
+  const cleanName = rawName.trim().replace(/\s+/g, " ").slice(0, 40);
 
   return cleanName || "Малыш";
 }
@@ -27,10 +24,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
   const childName = normalizeName(params.name);
 
-
   return (
     <GreetingProvider childName={childName}>
-      <StorkPreloader />
+      {/* <StorkPreloader /> */}
       <BirthGreeting />
     </GreetingProvider>
   );
