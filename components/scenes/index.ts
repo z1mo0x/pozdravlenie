@@ -5,8 +5,8 @@ import { certificateScene } from "./SertificateScene";
 import { wishesScene } from "./WishesScene";
 
 export const scenes: SceneDefinition[] = [
+  wishesScene,
   startScene,
   introScene,
   certificateScene,
-  wishesScene,
 ];

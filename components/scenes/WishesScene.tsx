@@ -3,38 +3,117 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useTransform, animate } from "motion/react";
-import { Share2, Heart } from "lucide-react";
 import type {
   SceneComponentProps,
   SceneDefinition,
 } from "@/components/scenes/types";
+
+// Коэффициент сильного зума (1.7 = увеличение на 70%)
+const ZOOM_SCALE = 1.7;
 
 function WishesScene({ isLocked, onNext }: SceneComponentProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [maxScroll, setMaxScroll] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const isDraggingRef = useRef(false);
+
+  const [zoom, setZoom] = useState(false);
+  const zoomRef = useRef(false);
 
   const x = useMotionValue(0);
   const targetXRef = useRef(0);
 
-  // Параллакс фона: когда веревка едет влево (x уходит в минус), фон сдвигается вправо
+  // Синхронизируем ref для доступа из обработчиков без лишних ререндеров
+  useEffect(() => {
+    zoomRef.current = zoom;
+  }, [zoom]);
+
+  // Параллакс фона
   const bgX = useTransform(x, (currentX) => {
     if (maxScroll <= 0) return 0;
-    const progress = currentX / -maxScroll; // от 0 (начало) до 1 (конец ленты)
-    return -150 + progress * 300; // сдвиг фона вправо от -150px до +150px
+    const progress = currentX / -maxScroll;
+    return -0 + progress * 150;
   });
 
-  // Обновление доступного диапазона скролла
+  // Обновление доступного диапазона скролла с учетом текущего зума
   const updateScrollBounds = useCallback(() => {
     if (trackRef.current && containerRef.current) {
-      const trackWidth =
-        trackRef.current.offsetWidth || trackRef.current.scrollWidth;
+      const child = trackRef.current.firstElementChild as HTMLElement;
+      const baseWidth =
+        child?.offsetWidth ||
+        trackRef.current.offsetWidth ||
+        trackRef.current.scrollWidth;
+
       const viewportWidth = containerRef.current.clientWidth;
-      const calculatedMax = Math.max(0, trackWidth - viewportWidth + 140);
+      const currentScale = zoomRef.current ? ZOOM_SCALE : 1;
+      const calculatedMax = Math.max(
+        0,
+        baseWidth * currentScale - viewportWidth + 140,
+      );
       setMaxScroll(calculatedMax);
     }
   }, []);
+
+  // Клик для переключения сильного зума с сохранением фокуса на выбранном пожелании
+  const toggleZoom = useCallback(
+    (e?: React.MouseEvent) => {
+      // Игнорируем клик, если только что отпустили перетаскивание
+      if (isDraggingRef.current) return;
+
+      const container = containerRef.current;
+      const track = trackRef.current;
+      if (!container || !track) return;
+
+      const viewportWidth = container.clientWidth;
+      const child = track.firstElementChild as HTMLElement;
+      const baseWidth = child?.offsetWidth || 6000;
+
+      const isCurrentlyZoomed = zoomRef.current;
+      const willZoom = !isCurrentlyZoomed;
+
+      // Находим точку ленты, на которую сейчас смотрит пользователь
+      const currentX = x.get();
+      let targetPointOnBase = 0;
+
+      if (e) {
+        const rect = track.getBoundingClientRect();
+        const clickVisualX = e.clientX - rect.left;
+        targetPointOnBase = isCurrentlyZoomed
+          ? clickVisualX / ZOOM_SCALE
+          : clickVisualX;
+      } else {
+        const centerVisualX = -currentX + viewportWidth / 2;
+        targetPointOnBase = isCurrentlyZoomed
+          ? centerVisualX / ZOOM_SCALE
+          : centerVisualX;
+      }
+
+      // Новый диапазон скролла
+      const newScale = willZoom ? ZOOM_SCALE : 1;
+      const newMaxScroll = Math.max(
+        0,
+        baseWidth * newScale - viewportWidth + 140,
+      );
+      setMaxScroll(newMaxScroll);
+
+      // Смещаем позицию x так, чтобы желаемая точка осталась ровно под курсором / в центре
+      const anchorOnScreen = e ? e.clientX : viewportWidth / 2;
+      const newTargetX = -(targetPointOnBase * newScale - anchorOnScreen);
+      const clampedTargetX = Math.max(-newMaxScroll, Math.min(0, newTargetX));
+
+      targetXRef.current = clampedTargetX;
+      animate(x, clampedTargetX, {
+        type: "spring",
+        damping: 30,
+        stiffness: 240,
+        mass: 0.4,
+      });
+
+      setZoom(willZoom);
+    },
+    [x],
+  );
 
   useEffect(() => {
     updateScrollBounds();
@@ -54,7 +133,7 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
     };
   }, [updateScrollBounds]);
 
-  // Обработка колеса мыши с плавным накоплением скорости
+  // Скролл колесом мыши: работает как в обычном режиме, так и внутри зума
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
@@ -62,9 +141,10 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
       const delta =
         Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
 
+      // Зум НЕ сбрасывается! Скроллим по всей доступной длине
       const newTarget = Math.max(
         -maxScroll,
-        Math.min(0, targetXRef.current - delta * 1.4),
+        Math.min(0, targetXRef.current - delta * 1.5),
       );
       targetXRef.current = newTarget;
 
@@ -88,15 +168,17 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
     };
   }, [handleWheel]);
 
-  // Клавиатурная навигация (стрелочки влево/вправо)
+  // Клавиатурная навигация: листает ленту в зуме
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        const newTarget = Math.max(-maxScroll, targetXRef.current - 400);
+        const step = zoomRef.current ? 600 : 400;
+        const newTarget = Math.max(-maxScroll, targetXRef.current - step);
         targetXRef.current = newTarget;
         animate(x, newTarget, { type: "spring", damping: 30, stiffness: 260 });
       } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        const newTarget = Math.min(0, targetXRef.current + 400);
+        const step = zoomRef.current ? 600 : 400;
+        const newTarget = Math.min(0, targetXRef.current + step);
         targetXRef.current = newTarget;
         animate(x, newTarget, { type: "spring", damping: 30, stiffness: 260 });
       }
@@ -112,24 +194,30 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
       className="scene scene--wishes relative w-full h-screen overflow-hidden select-none"
       style={{ padding: "100px 0 20px" }}
     >
-      {/* Параллакс фон: движется вправо при скролле веревки влево */}
+      {/* Параллакс фон */}
       <motion.div
         className="absolute inset-y-0 pointer-events-none -z-10"
         style={{
           left: "-250px",
           right: "-250px",
-          width: "calc(100% + 500px)",
+          width: "calc(100% + 250px)",
           x: bgX,
           backgroundImage: "url('/wishes-bg.png')",
-          backgroundPosition: "center bottom",
+          backgroundPosition: "center top",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
       />
 
-      {/* Главный заголовок сцены из других сцен */}
-      <motion.div className="scene__content scene__content--center w-full!">
-        <motion.h1 className="scene__title scene__title--hero">
+      {/* Заголовок сцены: при сильном зуме мягко приглушается, чтобы не спорить с открытками */}
+      <motion.div
+        className="scene__content scene__content--center w-full!"
+        style={{
+          opacity: zoom ? 0.25 : 1,
+          transition: "opacity 0.4s ease",
+        }}
+      >
+        <motion.h1 className="scene__title scene__title--hero text-8xl!">
           <motion.p
             initial={{ opacity: 0, y: 36 }}
             animate={{ opacity: 1, y: 0 }}
@@ -155,6 +243,7 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
           <motion.span
             initial={{ opacity: 0, rotate: 0, y: 0, x: 0 }}
             animate={{ opacity: 1, rotate: -7.5, y: -15, x: -15 }}
+            className="text-[250px]"
             transition={{
               duration: 1,
               ease: [0.22, 1, 0.36, 1],
@@ -166,9 +255,9 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
         </motion.h1>
       </motion.div>
 
-      {/* Область веревки с одеждой и пожеланиями */}
+      {/* Область веревки */}
       <div
-        className="absolute inset-x-0 top-[38%] bottom-0 z-10 flex items-center overflow-hidden"
+        className="absolute inset-x-0 top-[38%] bottom-0 z-10 flex items-center overflow-visible"
         style={{
           cursor: isDragging ? "grabbing" : "grab",
           touchAction: "none",
@@ -176,28 +265,43 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
       >
         <motion.div
           ref={trackRef}
-          className="relative flex items-center h-full pl-8 pr-28"
+          className="relative flex items-center h-full"
           drag="x"
           dragConstraints={{ left: -maxScroll, right: 0 }}
           dragElastic={0.12}
           dragTransition={{ bounceStiffness: 400, bounceDamping: 25 }}
           style={{ x }}
-          onDragStart={() => setIsDragging(true)}
+          onDragStart={() => {
+            setIsDragging(true);
+            isDraggingRef.current = true;
+          }}
           onDrag={() => {
             targetXRef.current = x.get();
           }}
           onDragEnd={() => {
             setIsDragging(false);
             targetXRef.current = x.get();
+            setTimeout(() => {
+              isDraggingRef.current = false;
+            }, 60);
           }}
         >
-          <div className="relative h-[48vh] min-h-[360px] max-h-[580px] aspect-[7725/608] flex-shrink-0">
+          <div
+            className="relative h-[48vh] min-h-[360px] max-h-[580px] aspect-[6000/400] flex-shrink-0"
+            onClick={toggleZoom}
+            style={{
+              transform: zoom ? `scale(${ZOOM_SCALE})` : "scale(1)",
+              transformOrigin: "0 78%",
+              transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+              cursor: isDragging ? "grabbing" : zoom ? "zoom-out" : "zoom-in",
+            }}
+          >
             <Image
               src="/wishes.svg"
               alt="Пожелания от коллег на веревке"
               fill
               priority
-              sizes="7725px"
+              sizes="6000px"
               className="object-contain pointer-events-none select-none drop-shadow-lg"
               draggable={false}
               onLoad={updateScrollBounds}
@@ -206,7 +310,7 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
         </motion.div>
       </div>
 
-      {/* Подсказка для скролла / перетаскивания снизу */}
+      {/* Интерактивная подсказка снизу */}
       <motion.div
         className="absolute bottom-6 inset-x-0 z-20 flex justify-center pointer-events-none"
         initial={{ opacity: 0 }}
@@ -215,7 +319,11 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
       >
         <div className="px-5 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white/90 text-sm font-medium tracking-wide flex items-center gap-2 drop-shadow">
           <span>←</span>
-          <span>Листайте или тяните веревку с пожеланиями</span>
+          <span>
+            {zoom
+              ? "Листайте приближенную ленту (клик для отдаления)"
+              : "Листайте или тяните веревку (клик для приближения)"}
+          </span>
           <span>→</span>
         </div>
       </motion.div>
