@@ -83,7 +83,7 @@ function CertificateScene({ isLocked, onNext }: SceneComponentProps) {
 
     if (!greetingBlock) return;
 
-    greetingBlock.style.minHeight = "250svh";
+    greetingBlock.style.minHeight = "275svh";
 
     return () => {
       greetingBlock.style.minHeight = "";

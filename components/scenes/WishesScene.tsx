@@ -317,7 +317,7 @@ function WishesScene({ isLocked, onNext }: SceneComponentProps) {
         animate={{ opacity: 0.7 }}
         transition={{ delay: 1, duration: 0.6 }}
       >
-        <div className="px-5 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white/90 text-sm font-medium tracking-wide flex items-center gap-2 drop-shadow">
+        <div className="px-5 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-primary/50 text-sm font-medium tracking-wide flex items-center gap-2 drop-shadow">
           <span>←</span>
           <span>
             {zoom
