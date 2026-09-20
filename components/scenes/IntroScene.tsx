@@ -259,7 +259,7 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
           &&
           <motion.div
             initial={{ x: '-100%' }}
-            exit={{ filter: 'blur(10px)' }}
+            exit={{ filter: 'blur(100px)', opacity: 0 }}
             key="cookie-stage-2"
             animate={{ x: 0 }}
             transition={{

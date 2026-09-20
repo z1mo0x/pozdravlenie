@@ -40,6 +40,19 @@ function StartScene({
         <>
             <section className="scene scene--start">
                 <motion.div
+                    className="absolute inset-y-0 pointer-events-none -z-10"
+                    style={{
+                        left: "-250px",
+                        right: "-250px",
+                        width: "calc(100% + 250px)",
+                        backgroundImage: "url('/start-bg.jpeg')",
+                        backgroundPosition: "center top",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        filter: "blur(5px)"
+                    }}
+                />
+                <motion.div
                     className="scene__content scene__content--center"
                 >
                     <motion.h1
