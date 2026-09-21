@@ -61,7 +61,7 @@ export async function playSceneSound(
 
 export async function playOverlaySound(
     src: string,
-    volume = 0.7,
+    volume = 0.35,
 ) {
     if (
         typeof window === "undefined" ||
