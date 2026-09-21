@@ -15,7 +15,7 @@ export async function playBackgroundMusic(
     if (!backgroundMusic) {
         backgroundMusic = new Audio(src);
         backgroundMusic.loop = true;
-        backgroundMusic.volume = 0.025;
+        backgroundMusic.volume = 0.010;
         backgroundMusic.preload = "auto";
     }
 
