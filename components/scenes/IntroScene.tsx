@@ -265,6 +265,9 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
             transition={{
               duration: 1,
               delay: 0,
+              ease: 'easeIn',
+              stiffness: 50,
+              type: "spring"
             }}
             className="scene__cookie scene__cookie-2 w-full max-w-[95%]  glass-item">
             <div className="text-block">
