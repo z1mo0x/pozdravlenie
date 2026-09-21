@@ -29,7 +29,7 @@ export async function playBackgroundMusic(
 
 export async function playSceneSound(
     src?: string,
-    volume = 0.7,
+    volume = 0.35,
 ) {
     if (
         typeof window === "undefined" ||
