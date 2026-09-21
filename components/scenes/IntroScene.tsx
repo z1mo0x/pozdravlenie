@@ -46,7 +46,7 @@ function IntroScene({ isLocked, onNext }: SceneComponentProps) {
   function cookieNext() {
     setCookieStage((prev) => {
 
-      playOverlaySound('/audio/scenes/start.mp3', .5)
+      playOverlaySound('/audio/scenes/start.mp3', .05)
 
       cookieDelay = 0;
       return prev + 1;
@@ -341,6 +341,6 @@ export const introScene: SceneDefinition = {
   particleColor: '#fff',
   Component: IntroScene,
 
-  // sound: "/audio/scenes/start.mp3",
-  // soundVolume: 0.5,
+  sound: "/audio/scenes/start.mp3",
+  soundVolume: 0.25,
 };

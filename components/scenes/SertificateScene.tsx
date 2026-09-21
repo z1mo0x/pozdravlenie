@@ -456,5 +456,5 @@ export const certificateScene: SceneDefinition = {
   Component: CertificateScene,
 
   sound: "/audio/scenes/start.mp3",
-  soundVolume: 0.5,
+  soundVolume: 0.25,
 };
